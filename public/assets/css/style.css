@@ -1,0 +1,19 @@
+:root{
+    --main-blue-color:#b4d8df;
+}
+
+.MainBG{
+    background-color: var(--main-blue-color);
+    
+}
+
+h6,h5,h4,h3,h2,h1{
+color: #000;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.boxStyles{
+    background-color: #ffffff;
+}
+.imagedark{
+    filter: brightness(60%);
+}
