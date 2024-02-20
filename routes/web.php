@@ -4,5 +4,5 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('Admin.Pages.AdminHotels');
+    return view('Admin.Pages.AdminHotelData');
 });
