@@ -12,9 +12,9 @@ class MenuFactory extends Factory
     public function definition(): array
     {
         return [
-            'hotel_id' => $this->faker->numberBetween(2, 3),
+            'hotel_id' =>"1",
             'menu_name' => $this->faker->sentence,
-            'menu_price' => $this->faker->randomFloat(2, 5, 50),
+            'menu_price' => $this->faker->numberBetween(500,2500),
             'menu_image_path' => "/images/menus/menu1708694199_65d89ab7ba8f5.jpg",
             'menu_available' => 1,
             'menu_description' => $this->faker->paragraph,

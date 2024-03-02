@@ -9,6 +9,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\route\PublicRouteController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/Hotels', [AdminRouteController::class, 'AdminHotels'])->name('SuperAdmin.Hotels');
             Route::get('/Users', [AdminRouteController::class, 'AdminUsers'])->name('SuperAdmin.Users');
             Route::get('/HotelDetails/{id}', [AdminRouteController::class, 'AdminHotelDetails'])->name('SuperAdmin.HotelDetails');
+
         });
     });
 
@@ -32,6 +34,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/Home', [HotelRouteController::class, 'HotelAdminHome'])->name('HotelAdmin.Home');
             Route::get('/Users', [HotelRouteController::class, 'HotelAdminUsers'])->name('HotelAdmin.users');
             Route::get('/Menus', [HotelRouteController::class, 'HotelAdminMenus'])->name('HotelAdmin.Menus');
+
+            Route::get('/update-table-down/{id}',[TableController::class,'updateStatusDown'])->name("UpdateTableStatusDown");
+            Route::get('/update-table-up/{id}',[TableController::class,'updateStatusUp'])->name("UpdateTableStatusUp");
         });
     });
 
@@ -47,6 +52,8 @@ Route::middleware('auth')->group(function () {
 
         Route::group(['middleware' => ['can:create_hotels']], function () {
             Route::post('/create-Hotel', [HotelController::class, 'store'])->name('Create.Hotel');
+            Route::post('/create-table/{id}', [TableController::class, 'store'])->name('Create.table');
+
         });
 
         Route::group(['middleware' => ['can:manage_users']], function () {
@@ -63,7 +70,16 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/create-order', [OrderController::class, 'store'])->name('Order.create');
         Route::get('/open-table/{id}', [TableController::class, 'update'])->name('Open.Table');
+
+        Route::middleware(['can:process_payment'])->group(function () {
+            Route::get('/processpayment/{id}', [TransactionController::class, 'store'])->name('Process.Payment');
+        });
+        
     });
+
+    Route::get('/employee/orders', [UserController::class, 'Orders'])->name('employee.orders');
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
 Route::prefix("/auth")->group(function () {

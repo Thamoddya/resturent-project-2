@@ -18,7 +18,7 @@ class StoreHotelRequest extends FormRequest
         return [
             "hotel_name"=>'required',
             "hotel_email"=>'required|unique:hotels,hotel_email',
-            "hotel_image_path"=>'sometimes',
+            "hotel_image_path"=>'required',
             "hotel_address"=>'required',
             "hotel_mobile"=>'required|unique:hotels,hotel_mobile',
         ];

@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
         //     'view_reports',
         //     'edit_user_hotel',
         //     'edit_reports',
+        //     'manage_inventory'
         // ];
 
         // foreach ($permissions as $permission) {
@@ -84,9 +85,9 @@ class DatabaseSeeder extends Seeder
         //     'edit_reports',
         // ]);
 
-        // // $hotelEmployee->givePermissionTo([
-        // //     'manage_inventory',
-        // // ]);
+        // $hotelEmployee->givePermissionTo([
+        //     'manage_inventory',
+        // ]);
 
         // $hotelCasher->givePermissionTo([
         //     'process_payment',
@@ -105,15 +106,15 @@ class DatabaseSeeder extends Seeder
         // );
         // $superAdminOne->assignRole($superAdmin);
 
-        // $this->call([
-        //     MenuSeeder::class,
-        // ]);
+        $this->call([
+            MenuSeeder::class,
+        ]);
 
         // $this->call([
         //     OrderSeeder::class,
         // ]);
 
         // OrderdMenu::factory()->count(150)->create();
-        Transaction::factory()->count(10)->create();
+        // Transaction::factory()->count(10)->create();
     }
 }

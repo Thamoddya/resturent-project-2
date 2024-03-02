@@ -132,9 +132,17 @@
                                         Not Assigned
                                     @endif
                                 </td>
-                                <td class="text-center"><a
+                                <td class="text-center">
+                                @if ($hotel->user)
+                                <a
                                         href="{{ route('SuperAdmin.HotelDetails', $hotel->hotel_id) }}"><button
-                                            class="btn btn-primary rounded-0">VIEW</button></a></td>
+                                            class="btn btn-primary rounded-0">VIEW</button>
+                                        </a>
+                                    @else
+                                        Not Assigned
+                                    @endif
+                                 
+                                        </td>
                             </tr>
                         @endforeach
                     </tbody>

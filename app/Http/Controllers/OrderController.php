@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use App\Models\OrderdMenu;
+use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -15,7 +17,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
@@ -43,23 +45,40 @@ class OrderController extends Controller
         }
 
         $order = Order::create([
-            "hotel_id"=>$user->hotel_id,
-            "table_id"=>$data['tableId'],
-            "order_id"=>$orderID,
-            "isPaid"=>0,
-            "customer_name"=>$data['tableId'],
-            "customer_mobile"=>$data['tableId'],
-            "customer_email"=>$data['tableId'],
-            "employee_id"
+            "hotel_id" => $user->hotel_id,
+            "table_id" => $data['tableId'],
+            "order_id" => $orderID,
+            "isPaid" => 0,
+            "customer_name" => $data['name'],
+            "customer_mobile" => $data['mobile'],
+            "customer_email" => $data['email'],
+            "employee_id" => $user->id,
         ]);
 
-
-
-        foreach ($data['selectedItems'] as $items) {
+        // Log order creation
+        if (!$order) {
+            \Log::error('Error creating order');
+            return response()->json([
+                "Error" => "Failed to create order"
+            ]);
         }
 
+        for ($i = 0; $i < count($data['selectedItems']); $i++) {
+            $orderedMenu = OrderdMenu::create([
+                "order_id" => $order->id,
+                "hotel_id" => $user->hotel_id,
+                "menu_id" => $data['selectedItems'][$i]['id'],
+                "qty" => $data['selectedItems'][$i]['quantity'],
+            ]);
+        }
+
+        $table = Table::where('id',$data['tableId'])->first();
+        $table->update([
+            "isReserved" => 1
+        ]);
+
         return response()->json([
-            "data" => $data
+            "attempt" =>"success"
         ]);
     }
 

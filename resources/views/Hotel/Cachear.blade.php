@@ -108,8 +108,9 @@
                                                     <div class="mb-3">
                                                         <label for="exampleFormControlInput1"
                                                             class="form-label">Table</label>
-                                                        <select id="table" class="form-select" aria-label="Default select example">
-                                                           
+                                                        <select id="table" class="form-select"
+                                                            aria-label="Default select example">
+
                                                             @foreach ($tables as $table)
                                                                 <option value="{{ $table->id }}">
                                                                     {{ $table->table_name }} </option>
@@ -239,7 +240,7 @@
             let data = {
                 'total': total,
                 'mobile': $('#mobile').val(),
-                'tableId':$("#table").val(),
+                'tableId': $("#table").val(),
                 'email': $('#email').val(),
                 'name': $('#name').val(),
                 'selectedItems': selectedItems
@@ -253,7 +254,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    console.log(response);
+                    
                 },
                 error: function(error) {
                     console.log(error);

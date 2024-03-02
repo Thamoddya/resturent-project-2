@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('hotel_id')->nullable()->constrained('hotels');
             $table->foreignId('order_id')->nullable()->constrained('orders');
+            $table->foreignId('menu_id')->constrained('menus');
             $table->integer('qty');
             $table->timestamps();
         });
