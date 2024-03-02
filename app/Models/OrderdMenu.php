@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class OrderdMenu extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "hotel_id",
+        "order_id",
+        "qty",
+    ];
 }

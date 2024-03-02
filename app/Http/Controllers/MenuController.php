@@ -29,7 +29,24 @@ class MenuController extends Controller
      */
     public function store(StoreMenuRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        // dd($validatedData);
+        $filename = 'menu' . time() . '_' . uniqid() . '.' . $request->file('menu_image')->getClientOriginalExtension();
+
+        $imagePath = $request->file('menu_image')->move(public_path('images/menus'), $filename);
+
+        $user = auth()->user();
+
+        $menu = Menu::create([
+            "hotel_id" => $user->hotel_id,
+            "menu_name" => $validatedData['menu_name'],
+            "menu_price" => $validatedData['menu_price'],
+            "menu_image_path" => '/images/menus/' . $filename,
+            "menu_description" => $validatedData['menu_description'],
+        ]);
+
+        return redirect()->route("HotelAdmin.Menus")->with("success", "Menu Added");
     }
 
     /**

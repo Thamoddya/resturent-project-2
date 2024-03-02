@@ -8,13 +8,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="{{route('SuperAdmin.Home')}}">Home</a>
+                    <a class="nav-link active " aria-current="page" href="{{ route('HotelAdmin.Home') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="{{route('SuperAdmin.Hotels')}}">Hotels</a>
+                    <a class="nav-link active " aria-current="page" href="{{ route('HotelAdmin.users') }}">Employee Data</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="{{route("SuperAdmin.Users")}}">Users</a>
+                    <a class="nav-link active " aria-current="page" href="{{ route('HotelAdmin.Menus') }}">Hotel Menus</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active " aria-current="page" href="#">Main management</a>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\StoreUserRequest2;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -29,12 +31,48 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $userData = $request->validated();
+
+        $user = new User([
+            'name' => $userData['name'],
+            'hotel_id' => $userData['hotel_id'],
+            'email' => $userData['email'],
+            'password' => Hash::make($userData['password']), // It's a good practice to hash passwords
+            'mobile' => $userData['mobile'],
+            'nic' => $userData['nic'],
+            'address' => $userData['address'],
+        ]);
+        $user->save();
+
+        $user->assignRole('Hotel_Admin');
+        return redirect()->route('SuperAdmin.Users')->with('success', 'User created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function storeEmployee(StoreUserRequest2 $request)
+    {
+        $userData = $request->validated();
+
+        $user = auth()->user();
+        $user = new User([
+            'name' => $userData['name'],
+            'hotel_id' => $user->hotel_id,
+            'email' => $userData['email'],
+            'password' => Hash::make($userData['password']),
+            'mobile' => $userData['mobile'],
+            'nic' => $userData['nic'],
+            'address' => $userData['address'],
+        ]);
+        $user->save();
+
+        if ($userData['role_id'] == '3') {
+            $user->assignRole('Hotel_Employee');
+        } else {
+            $user->assignRole('Hotel_Casher');
+        }
+
+        return redirect()->route('HotelAdmin.users')->with('success', 'Employee Added successfully.');
+    }
+
     public function show(User $user)
     {
         //

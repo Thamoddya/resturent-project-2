@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -13,7 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -27,9 +29,38 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrderRequest $request)
+    public function store(Request $request)
     {
-        //
+
+        $data = $request->all();
+        $user = auth()->user();
+        $orderID = hexdec(hash('crc32b', Str::uuid()));
+
+        if ($data['tableId'] == null) {
+            return response()->json([
+                "Error" => "Select Table"
+            ]);
+        }
+
+        $order = Order::create([
+            "hotel_id"=>$user->hotel_id,
+            "table_id"=>$data['tableId'],
+            "order_id"=>$orderID,
+            "isPaid"=>0,
+            "customer_name"=>$data['tableId'],
+            "customer_mobile"=>$data['tableId'],
+            "customer_email"=>$data['tableId'],
+            "employee_id"
+        ]);
+
+
+
+        foreach ($data['selectedItems'] as $items) {
+        }
+
+        return response()->json([
+            "data" => $data
+        ]);
     }
 
     /**

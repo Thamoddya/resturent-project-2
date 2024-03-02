@@ -9,15 +9,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class MenuFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'hotel_id' => $this->faker->numberBetween(2, 3),
+            'menu_name' => $this->faker->sentence,
+            'menu_price' => $this->faker->randomFloat(2, 5, 50),
+            'menu_image_path' => "/images/menus/menu1708694199_65d89ab7ba8f5.jpg",
+            'menu_available' => 1,
+            'menu_description' => $this->faker->paragraph,
         ];
     }
 }

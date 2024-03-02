@@ -51,9 +51,22 @@ class TableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTableRequest $request, Table $table)
+    public function update($id)
     {
-        //
+        $user = auth()->user();
+        $table = Table::where('id',$id)
+        ->where('hotel_id',$user->hotel_id)
+        ->first();
+
+        if($table){
+            $table->update([
+                'isReserved'=>0
+            ]);
+            return redirect()->back()->with('success','Updated');
+        }
+        else{
+            return redirect()->back()->with('error','Table Not Found');
+        }
     }
 
     /**

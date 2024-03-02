@@ -6,23 +6,21 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreHotelRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+
     public function rules(): array
     {
         return [
-            //
+            "hotel_name"=>'required',
+            "hotel_email"=>'required|unique:hotels,hotel_email',
+            "hotel_image_path"=>'sometimes',
+            "hotel_address"=>'required',
+            "hotel_mobile"=>'required|unique:hotels,hotel_mobile',
         ];
     }
 }

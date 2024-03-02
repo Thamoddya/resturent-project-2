@@ -29,12 +29,26 @@ class HotelController extends Controller
      */
     public function store(StoreHotelRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $filename = 'hotel_' . time() . '_' . uniqid() . '.' . $request->file('hotel_image_path')->getClientOriginalExtension();
+
+        $imagePath = $request->file('hotel_image_path')->move(public_path('images/hotels'), $filename);
+
+        $hotelID = substr(uniqid() . mt_rand(), 0, 10);
+
+        $hotel = Hotel::create([
+            'hotel_name' => $data['hotel_name'],
+            'hotel_email' => $data['hotel_email'],
+            'hotel_image_path' => '/images/hotels/' . $filename, // Adjust the image path
+            'hotel_id' => $hotelID,
+            'hotel_address' => $data['hotel_address'],
+            'hotel_mobile' => $data['hotel_mobile'],
+        ]);
+
+        return redirect()->route("SuperAdmin.Hotels")->with("success", "Hotel Registered");
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Hotel $hotel)
     {
         //
