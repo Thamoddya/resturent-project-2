@@ -17,12 +17,15 @@ class Order extends Model
         "customer_name",
         "customer_mobile",
         "customer_email",
-        "employee_id"
+        "employee_id",
+        "isCompleted",
+        "completed_by",
+        "status"
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'employee_id', 'id');
+        return $this->belongsTo(User::class, 'employee_id');
     }
 
     public function orderdMenus()

@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/update-table-down/{id}',[TableController::class,'updateStatusDown'])->name("UpdateTableStatusDown");
             Route::get('/update-table-up/{id}',[TableController::class,'updateStatusUp'])->name("UpdateTableStatusUp");
+
+            Route::get('/delete-order/{id}',[OrderController::class,'deleteOrder'])->name("Delete.order");
         });
     });
 
@@ -78,6 +80,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/employee/orders', [UserController::class, 'Orders'])->name('employee.orders');
+    Route::get('/complete/order/{id}', [OrderController::class, 'completeOrder'])->name('Complete.Order');
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });

@@ -15,10 +15,13 @@ return new class extends Migration
             $table->foreignId('table_id')->nullable()->constrained('tables');
             $table->string('order_id');
             $table->integer('isPaid')->default(0);
+            $table->integer('isCompleted')->default(0);
+            $table->integer('status')->default(1);
             $table->string('customer_name')->nullable();
             $table->string('customer_mobile')->nullable();
             $table->string('customer_email')->nullable();
             $table->foreignId('employee_id')->nullable()->constrained('users');
+            $table->foreignId('completed_by')->nullable()->constrained('users');
             $table->timestamps();
         });
     }

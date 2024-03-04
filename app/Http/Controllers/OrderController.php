@@ -124,7 +124,7 @@ class OrderController extends Controller
         ]);
 
         return response()->json([
-            "attempt" => "success"
+            "attempt" => $data['selectedItems']
         ]);
     }
 
@@ -241,5 +241,37 @@ class OrderController extends Controller
         }
     }
 
+
+    public function completeOrder($id){
+
+        $user = auth()->user();
+        $order = Order::where('order_id', $id)
+        ->where('hotel_id', $user->hotel_id)
+        ->first();
+
+        if($order){
+            $order->update([
+                "isCompleted"=>1,
+                "completed_by"=>$user->id
+            ]);
+            return redirect()->back()->with("success","Order Completed");
+        }
+        else{
+            return redirect()->back()->with("Error","Error Occured");
+        }
+    }
+
+    public function deleteOrder($id)
+    {
+        $order = Order::where('order_id', $id)->first();
+        if ($order) {
+            $order->orderdMenus()->delete();
+            $order->delete();
+
+            return redirect()->back()->with("success", "Order Deleted");
+        } else {
+            return redirect()->back()->with("error", "Error Occured");
+        }
+    }
     
 }

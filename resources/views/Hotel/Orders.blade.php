@@ -76,6 +76,7 @@
                                         <th scope="col">Orderd Menus</th>
                                         <th scope="col">Invoice ID</th>
                                         <th scope="col">Employee</th>
+                                        <th scope="col">Complete Order</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -116,6 +117,10 @@
                                             <td>
                                                 {{ $order->user->name }}
                                             </td>
+                                            <td>
+                                                <a href="{{ route('Complete.Order', $order->order_id) }}"
+                                                    class="btn btn-danger">Complete Order</a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -124,7 +129,6 @@
                     </div>
                 </div>
             </div>
-
             <hr>
             <div class="col-12">
                 <div class="container">
@@ -147,6 +151,9 @@
                                         @can('process_payment')
                                             <th scope="col">Complete Payment</th>
                                         @endcan
+                                        @role('Hotel_Admin')
+                                        <th class="text-danger">Delete</th>
+                                        @endrole
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -192,6 +199,13 @@
                                                     @endif
                                                 </td>
                                             @endcan
+                                            @role('Hotel_Admin')
+                                                <td>
+                                                    <a href="{{ route('Delete.order', $order->order_id) }}">
+                                                        <button class="btn btn-danger">Delete</button>
+                                                    </a>
+                                                </td>
+                                            @endrole
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -108,6 +108,7 @@ class UserController extends Controller
         $orders =  Order::with('orderdMenus')
         ->where('hotel_id', $user->hotel_id)
         ->where('isPaid', '0')
+        ->where('isCompleted', '0')
         ->latest()
         ->take(25)
         ->get();
@@ -115,6 +116,7 @@ class UserController extends Controller
         $PaidOrders=  Order::with('orderdMenus')
         ->where('hotel_id', $user->hotel_id)
         ->where('isPaid', '1')
+        ->where('isCompleted', '0')
         ->latest()
         ->take(25)
         ->get();

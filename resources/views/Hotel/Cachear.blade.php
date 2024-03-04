@@ -31,6 +31,10 @@
                  class="d-inline-block align-text-center text-white"> --}}
                 SYSTEM EMPLOYEE :- {{ $user->name }}
             </a>
+
+            <a class="navbar-brand text-white" href="{{route('employee.orders')}}">
+                <button class="btn btn-secondary">Go TO ORDERS</button>
+            </a>
         </div>
     </nav>
 
@@ -254,7 +258,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    
+                    alert('Order Created Successfully');
                 },
                 error: function(error) {
                     console.log(error);

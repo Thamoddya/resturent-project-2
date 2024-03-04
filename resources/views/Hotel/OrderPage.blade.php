@@ -161,7 +161,7 @@
                                     {{-- @dd($orderdFoods) --}}
                                     @foreach ($orderdFoods as $foods)
                                         <tr class="align-middle">
-                                            <th><img style="width: 60px " src="{{ $food->menu->menu_image_path }}">
+                                            <th><img style="width: 60px " src="{{ $foods->menu->menu_image_path }}">
                                             </th>
                                             <td>{{ $foods->menu->menu_name }}</td>
                                             <td>{{ $foods->qty }} </td>

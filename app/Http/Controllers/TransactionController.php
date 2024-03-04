@@ -34,7 +34,7 @@ class TransactionController extends Controller
 
         $orderData = Order::where('id',$id)->first();
         $orderTotal = $orderData->getOrderTotal();
-
+        $user = auth()->user();
 
         $transaction = Transaction::create([
             "hotel_id" =>$orderData->hotel_id,
@@ -43,7 +43,8 @@ class TransactionController extends Controller
             "invoice_id" =>"INV-" . time() . rand(1000, 9999)
         ]);
         $orderData->update([
-            "isPaid" => 1
+            "isPaid" => 1,
+            "employee_id" => $user->id
         ]);
         
         return redirect()->back()->with('success', 'Transaction Created Successfully');
@@ -137,4 +138,6 @@ class TransactionController extends Controller
             'order_id' => $order_id,
         ]);
     }
+
+    
 }
