@@ -10,7 +10,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class HotelRouteController extends Controller
 {
 
@@ -25,6 +25,10 @@ class HotelRouteController extends Controller
         $tables = HotelData::getTables($user);
         $transactions = HotelData::getLast10Transactions($user);
 
+        $data = "http://192.168.0.100:8000/table-food/65e1c6b270a0c";
+        $qrCode = QrCode::generate($data);
+
+
         return view("Hotel.HotelAdminHome", compact([
             "user",
             "hotelData",
@@ -32,7 +36,8 @@ class HotelRouteController extends Controller
             "transactionCount",
             "totalPrice",
             "tables",
-            "transactions"
+            "transactions",
+            'qrCode'
         ]));
     }
 

@@ -35,6 +35,9 @@ class AuthController extends Controller
             elseif($roles[0] == "Hotel_Casher"){
                 return redirect()->route('HotelCasher.Home');
             }
+            elseif($roles[0] == "Hotel_Employee"){
+                return redirect()->route('employee.orders');
+            }
 
         } else {
             return back()->with('error','Invalid Email or Password');

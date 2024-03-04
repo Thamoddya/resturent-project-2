@@ -105,12 +105,34 @@ class UserController extends Controller
 
     public function Orders(){
         $user = auth()->user();
-        $orders =  Order::with('orderdMenus')->where('hotel_id', $user->hotel_id)
+        $orders =  Order::with('orderdMenus')
+        ->where('hotel_id', $user->hotel_id)
         ->where('isPaid', '0')
         ->latest()
+        ->take(25)
         ->get();
 
-        return view('Hotel.Orders',compact('user','orders'));
+        $PaidOrders=  Order::with('orderdMenus')
+        ->where('hotel_id', $user->hotel_id)
+        ->where('isPaid', '1')
+        ->latest()
+        ->take(25)
+        ->get();
 
+        return view('Hotel.Orders',compact('user','orders','PaidOrders'));
+
+    }
+
+    public function OrderPage($id){
+
+
+        $orderData = Order::where('order_id', $id)->first();
+
+        $orderdFoods = $orderData->orderdMenus;
+
+        return view('Hotel.OrderPage',compact([
+            'orderData',
+            'orderdFoods',
+        ]));
     }
 }

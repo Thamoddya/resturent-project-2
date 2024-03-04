@@ -56,6 +56,76 @@
                 @endif
 
             </div>
+            <div class="col-12 mt-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="text-center mt-5">Hotel Paid Orders</h1>
+                        </div>
+                    </div>
+                    <div class="row" style="overflow-y: scroll">
+                        <div class="col-12">
+                            <table class="table table-hover table-bordered mt-5">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Order ID</th>
+                                        <th scope="col">Order Time</th>
+                                        <th scope="col">Payment</th>
+                                        <th scope="col">Customer Data</th>
+                                        <th scope="col">Order Total</th>
+                                        <th scope="col">Orderd Menus</th>
+                                        <th scope="col">Invoice ID</th>
+                                        <th scope="col">Employee</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- @dd($orders) --}}
+                                    @foreach ($PaidOrders as $order)
+                                        <tr>
+                                            <th scope="row">{{ $order->order_id }}</th>
+                                            <td>{{ $order->created_at->format('H:i:s') }}</td>
+                                            <td>
+                                                @if ($order->isPaid == 1)
+                                                    <span class="badge bg-success">Paid</span>
+                                                @else
+                                                    <span class="badge bg-danger">Not Paid</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li>{{ $order->customer_name }}</li>
+                                                    <li>{{ $order->customer_mobile }}</li>
+                                                    <li>{{ $order->customer_email }}</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                {{-- @dd($order->getOrderTotal()) --}}
+                                                Rs.{{ $order->getOrderTotal() }}
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    @foreach ($order->orderdMenus as $orderedMenu)
+                                                        <li>{{ $orderedMenu->qty }} x
+                                                            {{ $orderedMenu->menu->menu_name }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                {{ $order->transaction->invoice_id }}
+                                            </td>
+                                            <td>
+                                                {{ $order->user->name }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
             <div class="col-12">
                 <div class="container">
                     <div class="row">
@@ -64,7 +134,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12" style="overflow-y: scroll">
                             <table class="table table-hover table-bordered mt-5">
                                 <thead>
                                     <tr>
@@ -133,7 +203,13 @@
         </div>
     </div>
 
-
+    @role('Hotel_Employee')
+        <script type="text/javascript">
+            setTimeout(function() {
+                location.reload();
+            }, 5000);
+        </script>
+    @endrole
 
     @include('Components.FooterImports')
 </body>

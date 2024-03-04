@@ -80,4 +80,61 @@ class TransactionController extends Controller
     {
         //
     }
+
+    public function PaymentHash($id)
+    {
+
+        $orderData = Order::where('order_id',$id)->first();
+        $orderdFoods = $orderData->orderdMenus;
+
+        $orderUserData = $orderData;
+
+        $merchant_id = config('app.payhere.merchant_id');
+        $order_id = $orderData->order_id;
+        $amount = $orderData->total_price;
+        $currency = 'LKR';
+        $merchant_secret = config('app.payhere.secret');
+        $hash = strtoupper(
+            md5(
+                $merchant_id .
+                $order_id .
+                number_format($amount, 2, '.', '') .
+                $currency .
+                strtoupper(md5($merchant_secret))
+            )
+        );
+
+        // $data = [
+        //     'first_name' => $orderUserData->customer_name,
+        //     'last_name' => $orderUserData->customer_name,
+        //     'email' => $orderUserData->customer_email,
+        //     'phone' => $orderUserData->customer_mobile,
+        //     'address' => 'Main Rd , Anuradhapura , Eriyagama',
+        //     'city' => 'Anuradhapura',
+        //     'country' => 'Sri lanka',
+        //     'order_id' => $order_id,
+        //     'items' => $orderdFoods,
+        //     'currency' => 'LKR',
+        //     'amount' => $amount,
+        //     'return_url'=>route('confirm.order.payment',$orderData->invoice_id),
+        //     'notify_url'=>'www.notify_url.com',
+        //     'cancel_url'=>'www.cancel_url.com',
+        // ];
+
+        return response()->json([
+            'merchant_id'=>$merchant_id,
+            'first_name' => $orderUserData->name,
+            'last_name' => $orderUserData->name,
+            'email' => $orderUserData->email,
+            'phone' => $orderUserData->name,
+            'address'=>"Main Rd , Anuradhapura , Eriyagama",
+            'city'=>"Anuradhapura",
+            'country'=>"Sri lanka",
+            'items' => $orderdFoods,
+            'currency'=>$currency,
+            'amount'=>$amount,
+            'hash'=>$hash,
+            'order_id' => $order_id,
+        ]);
+    }
 }

@@ -86,5 +86,11 @@ Route::prefix("/auth")->group(function () {
     Route::post("/login-process", [AuthController::class, 'login'])->name("auth.login");
 });
 
+Route::get('/table-food/{id}',[OrderController::class,'TableByFood'])->name('table-id-food');
+Route::post('/create-order-new', [OrderController::class, 'storeNew'])->name('Order.createNew');
 
+
+Route::get('/order/{id}',[UserController::class,'OrderPage'])->name('Order.page');
+Route::get('/getHash/{id}',[TransactionController::class,'PaymentHash'])->name('GetHashToken');
+Route::get('/confirm-payment/{id}',[OrderController::class,'confirmPayment'])->name('confirm.order.payment');
 Route::get('/', [PublicRouteController::class, 'login'])->name('login');

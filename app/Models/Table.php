@@ -17,4 +17,10 @@ class Table extends Model
         "isActive",
         "isReserved"
     ];
+
+    public function hotel(){
+        return $this->belongsTo(Hotel::class,'hotel_id');
+    }
+
+    
 }

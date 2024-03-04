@@ -44,4 +44,10 @@ class Order extends Model
 
         return $totalPrice;
     }
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class, 'order_id');
+    }
+
 }

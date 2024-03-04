@@ -185,5 +185,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
-
+    'payhere' => [
+        'merchant_id' => env('PAYHERE_MERCHANT_ID', '1224284'),
+        'secret' => env('PAYHERE_MERCHANT_SECRET', 'NDEyNzg1MjgzNzMxODk3NTk0ODcxMTA2ODEyNzY4MjkyODk1OTEzNA==')
+    ],
 ];

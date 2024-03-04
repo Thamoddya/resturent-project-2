@@ -112,6 +112,7 @@
                                                 <th scope="col" class="text-center">Max Seats</th>
                                                 <th scope="col" class="text-center">Status</th>
                                                 <th scope="col" class="text-center">Action</th>
+                                                <th scope="col" class="text-center">Qr Code</th>
                                             </tr>
                                         </thead>
                                         <tbody class="table-group-divider ">
@@ -138,6 +139,16 @@
                                                         <button class="btn btn-Primary rounded-0">Activate</button>
                                                     </a>
                                                 @endif
+                                            </td>
+                                            <td class="text-center">
+                                                @php
+                                                    $qrCodeData = url('/table-food/' . $table->table_id);
+                                                    $imagePath = public_path('assets/images/cropped-texta-logo-1.png');
+                                                    $qrCode = QrCode::merge($imagePath, 0.3, true)->generate(
+                                                        $qrCodeData,
+                                                    );
+                                                @endphp
+                                                {!! $qrCode !!}
                                             </td>
                                             </tr>
                                             @endforeach
