@@ -20,7 +20,15 @@ class AdminRouteController extends Controller
     {
 
         $user = auth::user();
-        return view('Admin.Pages.AdminHome', compact('user'));
+        $hotelsCount = Hotel::count();
+        $usersCount = User::count();
+        $tablesCount = Table::count();
+        $hotel_admins_count = User::role('Hotel_Admin')->count();
+        $hotel_employees_count = User::role('Hotel_Employee')->count();
+        $hotel_cacher_count = User::role('Hotel_Casher')->count();
+
+
+        return view('Admin.Pages.AdminHome', compact('user', 'hotelsCount', 'usersCount', 'hotel_admins_count', 'hotel_employees_count', 'tablesCount', 'hotel_cacher_count'));
     }
 
     public function AdminUsers()
@@ -33,14 +41,22 @@ class AdminRouteController extends Controller
 
         $hotels = Hotel::whereDoesntHave('user')
             ->get();
-        return view('Admin.Pages.AdminUsers', compact('user', 'hotels', 'usersExceptLoggedInUsers'));
+
+        $hotel_admins_count = User::role('Hotel_Admin')->count();
+        $hotel_employees_count = User::role('Hotel_Employee')->count();
+        $hotel_cacher_count = User::role('Hotel_Casher')->count();
+
+
+        return view('Admin.Pages.AdminUsers', compact('user', 'hotels', 'usersExceptLoggedInUsers','hotel_admins_count','hotel_employees_count','hotel_cacher_count'));
     }
 
     public function AdminHotels()
     {
         $user = auth::user();
         $hotels = Hotel::with('user')->get();
-        return view('Admin.Pages.AdminHotels', compact('user', 'hotels'));
+        $hotelsCount = Hotel::count();
+        $hotel_employees_count = User::role('Hotel_Employee')->count();
+        return view('Admin.Pages.AdminHotels', compact('user', 'hotels', 'hotelsCount', 'hotel_employees_count'));
     }
 
     public function AdminHotelDetails($id)

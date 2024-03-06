@@ -34,6 +34,12 @@
 
             <a class="navbar-brand text-white" href="{{route('employee.orders')}}">
                 <button class="btn btn-secondary">Go TO ORDERS</button>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active " aria-current="page" href="{{route('auth.logout')}}">Sign Out</a>
+                    </li>
+                </ul>
             </a>
         </div>
     </nav>

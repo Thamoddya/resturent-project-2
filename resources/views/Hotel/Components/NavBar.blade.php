@@ -17,7 +17,12 @@
                     <a class="nav-link active " aria-current="page" href="{{ route('HotelAdmin.Menus') }}">Hotel Menus</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="#">Main management</a>
+                    <a class="nav-link active " aria-current="page" href="{{ route('employee.orders') }}">Order management</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active " aria-current="page" href="{{route('auth.logout')}}">Logout</a>
                 </li>
             </ul>
         </div>

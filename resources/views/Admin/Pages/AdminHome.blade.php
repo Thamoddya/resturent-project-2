@@ -38,7 +38,7 @@
                                 <div class="row p-2  d-flex align-items-center justify-content-center">
                                     <div class="col-12 text-center p-4  boxStyles ">
                                         <h6>HOTELS</h6>
-                                        <h6 class="text-dark fw-bold">15</h6>
+                                        <h6 class="text-dark fw-bold">{{$hotelsCount}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
                                 <div class="row p-2  d-flex align-items-center justify-content-center">
                                     <div class="col-12 text-center p-4  boxStyles  ">
                                         <h6>USERS</h6>
-                                        <h6 class="text-dark fw-bold">15</h6>
+                                        <h6 class="text-dark fw-bold">{{$usersCount}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@
                                 <div class="row p-2  d-flex align-items-center justify-content-center">
                                     <div class="col-12 text-center p-4  boxStyles  ">
                                         <h6>TABLES</h6>
-                                        <h6 class="text-dark fw-bold">15</h6>
+                                        <h6 class="text-dark fw-bold">{{$tablesCount}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -62,23 +62,23 @@
                                 <div class="row p-2  d-flex align-items-center justify-content-center">
                                     <div class="col-12 text-center p-4  boxStyles  h-100">
                                         <h6>EMPLOYEES</h6>
-                                        <h6 class="text-dark fw-bold">15</h6>
+                                        <h6 class="text-dark fw-bold">{{$hotel_employees_count}}</h6>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-6 ">
                                 <div class="row p-2  d-flex align-items-center justify-content-center">
                                     <div class="col-12 text-center p-4  boxStyles  ">
-                                        <h6>TABLES</h6>
-                                        <h6 class="text-dark fw-bold">15</h6>
+                                        <h6>CACHEERS</h6>
+                                        <h6 class="text-dark fw-bold">{{$hotel_cacher_count}}</h6>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-6 ">
                                 <div class="row p-2  d-flex align-items-center justify-content-center">
                                     <div class="col-12 text-center p-4  boxStyles  h-100">
-                                        <h6>EMPLOYEES</h6>
-                                        <h6 class="text-dark fw-bold">15</h6>
+                                        <h6>ADMINS</h6>
+                                        <h6 class="text-dark fw-bold">{{$hotel_admins_count}}</h6>
                                     </div>
                                 </div>
                             </div>

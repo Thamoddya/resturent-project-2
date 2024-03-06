@@ -34,6 +34,20 @@
         </div>
     </nav>
 
+    @if ($table->isReserved == 1)
+        <div class="alert alert-danger m-3" role="alert">
+            This table is already reserved. Please select another table.
+        </div>
+
+        <script type="text/javascript">
+            setTimeout(function() {
+                location.reload();
+            }, 5000);
+        </script>
+        {{exit()}}
+    @endif
+    
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-7 mt-3">
@@ -55,7 +69,7 @@
                                 <div class="col-12">
                                     <div class="card-body">
                                         <h5 class="card-title fw-bold">{{ $food->menu_name }}</h5>
-                                        <p class="card-text">{{ $food->menu_description }}.</p>
+                                        <p class="card-text">{{ Str::limit($food->menu_description, 50) }}.</p>
                                         <p class="card-text">Rs:- {{ $food->menu_price }}.00</p>
                                         <!-- Add a button to select the item -->
                                         <button class="btn btn-primary rounded-0"

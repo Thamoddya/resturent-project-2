@@ -5,10 +5,10 @@
             <div class="col-12 ">
                 <div class="row bg-white align-items-center">
                     <div class="col-6 d-flex justify-content-center align-items-center p-3">
-                        <h5><i class="fa fa-hotel text-dark"></i> 10</h5>
+                        <h5><i class="fa fa-hotel text-dark"></i> {{$hotelsCount}}</h5>
                     </div>
                     <div class="col-6 d-flex justify-content-center align-items-center p-3">
-                        <h5><i class="fa fa-user-friends text-dark"></i> 10</h5>
+                        <h5><i class="fa fa-user-friends text-dark"></i> {{$hotel_employees_count}}</h5>
                     </div>
                 </div>
             </div>

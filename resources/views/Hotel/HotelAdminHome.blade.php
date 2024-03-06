@@ -89,7 +89,7 @@
                                         <h6>Mobiles :
                                             <span class="text-secondary">
                                                 <ul>
-                                                    <li class="text-primary">0769458554</li>
+                                                    <li class="text-primary">{{ $hotelData->user->mobile }}</li>
                                                 </ul>
                                             </span>
                                         </h6>
@@ -112,6 +112,7 @@
                                                 <th scope="col" class="text-center">Max Seats</th>
                                                 <th scope="col" class="text-center">Status</th>
                                                 <th scope="col" class="text-center">Action</th>
+                                                <th scope="col" class="text-center">View</th>
                                                 <th scope="col" class="text-center">Qr Code</th>
                                             </tr>
                                         </thead>
@@ -140,6 +141,7 @@
                                                     </a>
                                                 @endif
                                             </td>
+                                            <td><a href="{{route('table-id-food',$table->table_id)}}">View Table</a></td>
                                             <td class="text-center">
                                                 @php
                                                     $qrCodeData = url('/table-food/' . $table->table_id);

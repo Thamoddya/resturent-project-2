@@ -21,94 +21,87 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        // \App\Models\User::factory(10)->create();
+        $permissions = [
+            'create_hotels',
+            'edit_hotels',
+            'delete_hotel',
+            'manage_users',
+            'manage_hotel_staff',
+            'process_payment',
+            'view_reports',
+            'edit_user_hotel',
+            'edit_reports',
+            'manage_inventory'
+        ];
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        foreach ($permissions as $permission) {
+            Permission::create([
+                'name' => $permission,
+            ]);
+        }
 
-        // $permissions = [
-        //     'create_hotels',
-        //     'edit_hotels',
-        //     'delete_hotel',
-        //     'manage_users',
-        //     'manage_hotel_staff',
-        //     'process_payment',
-        //     'view_reports',
-        //     'edit_user_hotel',
-        //     'edit_reports',
-        //     'manage_inventory'
-        // ];
+        $superAdmin = Role::create(
+            [
+                "name" => "Super_Admin",
+            ]
+        );
+        $hotelAdmin = Role::create(
+            [
+                "name" => "Hotel_Admin",
+            ]
+        );
+        $hotelEmployee = Role::create(
+            [
+                "name" => "Hotel_Employee",
+            ]
+        );
+        $hotelCasher = Role::create(
+            [
+                "name" => "Hotel_Casher",
+            ]
+        );
 
-        // foreach ($permissions as $permission) {
-        //     Permission::create([
-        //         'name' => $permission,
-        //     ]);
-        // }
-
-        // $superAdmin = Role::create(
-        //     [
-        //         "name" => "Super_Admin",
-        //     ]
-        // );
-        // $hotelAdmin = Role::create(
-        //     [
-        //         "name" => "Hotel_Admin",
-        //     ]
-        // );
-        // $hotelEmployee = Role::create(
-        //     [
-        //         "name" => "Hotel_Employee",
-        //     ]
-        // );
-        // $hotelCasher = Role::create(
-        //     [
-        //         "name" => "Hotel_Casher",
-        //     ]
-        // );
-
-        // $superAdmin->givePermissionTo([
-        //     'create_hotels',
-        //     'edit_hotels',
-        //     'delete_hotel',
-        //     'manage_users',
-        //     'manage_hotel_staff',
-        //     'edit_user_hotel',
-        //     'view_reports',
-        //     'edit_reports',
-        // ]);
-        // $hotelAdmin->givePermissionTo([
-        //     'delete_hotel',
-        //     'manage_hotel_staff',
-        //     'edit_user_hotel',
-        //     'edit_reports',
-        // ]);
-
-        // $hotelEmployee->givePermissionTo([
-        //     'manage_inventory',
-        // ]);
-
-        // $hotelCasher->givePermissionTo([
-        //     'process_payment',
-        //     'view_reports',
-        // ]);
-
-        // $superAdminOne = User::create(
-        //     [
-        //         'name' => "Thamoddya Rashmitha",
-        //         'email'=>"thamo@gmail.com",
-        //         'password'=>Hash::make("1234"),
-        //         'mobile'=>"0769458554",
-        //         'nic'=>"200509104610",
-        //         'address'=>"Anuradhapura Road , Eriyagama",
-        //     ]
-        // );
-        // $superAdminOne->assignRole($superAdmin);
-
-        $this->call([
-            MenuSeeder::class,
+        $superAdmin->givePermissionTo([
+            'create_hotels',
+            'edit_hotels',
+            'delete_hotel',
+            'manage_users',
+            'manage_hotel_staff',
+            'edit_user_hotel',
+            'view_reports',
+            'edit_reports',
         ]);
+        $hotelAdmin->givePermissionTo([
+            'delete_hotel',
+            'manage_hotel_staff',
+            'edit_user_hotel',
+            'edit_reports',
+        ]);
+
+        $hotelEmployee->givePermissionTo([
+            'manage_inventory',
+        ]);
+
+        $hotelCasher->givePermissionTo([
+            'process_payment',
+            'view_reports',
+        ]);
+
+        $superAdminOne = User::create(
+            [
+                'name' => "Pramoda Sankalpa",
+                'email'=>"softwaresolutionp@gmail.com",
+                'password'=>Hash::make("Pm@texta@hot##"),
+                'mobile'=>"0710144298",
+                'nic'=>"200509102312",
+                'address'=>"Anuradhapura",
+            ]
+        );
+        $superAdminOne->assignRole($superAdmin);
+
+        // $this->call([
+        //     MenuSeeder::class,
+        // ]);
 
         // $this->call([
         //     OrderSeeder::class,
