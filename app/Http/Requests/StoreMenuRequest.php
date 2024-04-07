@@ -19,6 +19,7 @@ class StoreMenuRequest extends FormRequest
             "menu_price"=> "required|numeric",
             "menu_image"=> "required|image",
             "menu_description"=> "required",
+            "category_id"=> "required|exists:categories,id"
         ];
     }
 }

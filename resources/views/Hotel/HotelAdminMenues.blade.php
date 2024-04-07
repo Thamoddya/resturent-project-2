@@ -72,6 +72,16 @@
                                     </div>
 
                                     <div class="input-group flex-nowrap mb-3">
+                                        <span class="input-group-text" id="addon-wrapping">Menu Category</span>
+                                        <select name="category_id" class="form-select" aria-label="Default select example">
+
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group flex-nowrap mb-3">
                                         <span class="input-group-text" id="addon-wrapping">Menu Description</span>
                                         <input type="text" name="menu_description" class="form-control"
                                             placeholder="Menu Description" aria-label="Username"
@@ -115,7 +125,7 @@
                                     </th>
                                 <td class="text-center" scope="row">{{ $menu->menu_name }}</th>
                                 <td class="text-center" scope="row">{{ $menu->menu_price }}</th>
-                                    <td class="text-center" scope="row">{{ $menu->created_at }}</th>
+                                <td class="text-center" scope="row">{{ $menu->created_at }}</th>
                                 <td class="text-center"><button class="btn btn-primary rounded-0">VIEW</button></td>
                             </tr>
                         @endforeach

@@ -42,6 +42,7 @@ class TableController extends Controller
                 'table_name' => $validated['table_name'],
                 'max_seats' => $validated['max_seats'],
                 'table_id' => uniqid(),
+                'isReserved'=>0
             ]);
             return redirect()->back()->with('success', 'Table Created');
         } else {

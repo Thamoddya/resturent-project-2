@@ -89,15 +89,15 @@ class DatabaseSeeder extends Seeder
 
         $superAdminOne = User::create(
             [
-                'name' => "Pramoda Sankalpa",
-                'email'=>"softwaresolutionp@gmail.com",
-                'password'=>Hash::make("Pm@texta@hot##"),
-                'mobile'=>"0710144298",
-                'nic'=>"200509102312",
+                'name' => "Thamoddya Rashmitha",
+                'email'=>"thamo@gmail.com",
+                'password'=>Hash::make("1234"),
+                'mobile'=>"0769458554",
+                'nic'=>"200509104610",
                 'address'=>"Anuradhapura",
             ]
         );
-        $superAdminOne->assignRole($superAdmin);
+        $superAdminOne->assignRole(Role::find(1));
 
         // $this->call([
         //     MenuSeeder::class,

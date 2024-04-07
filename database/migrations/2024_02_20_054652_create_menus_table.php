@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hotel_id')->nullable()->constrained('hotels');
+            $table->foreignId('category_id')->nullable()->constrained('categories');
             $table->string('menu_name');
             $table->double('menu_price');
             $table->string('menu_image_path');

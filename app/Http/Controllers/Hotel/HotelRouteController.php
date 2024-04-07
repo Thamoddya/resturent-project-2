@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Hotel;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Hotel;
 use App\Models\Menu;
 use App\Models\Table;
@@ -55,12 +56,14 @@ class HotelRouteController extends Controller
     public function HotelAdminMenus()
     {
         $user = self::HotelAdminData();
-
+        $categories = Category::where('hotel_id', $user['hotel_id'])->get();
 
         $menus = HotelData::getHotelMenus($user);
+
         return view("Hotel.HotelAdminMenues", compact([
             'user',
-            'menus'
+            'menus',
+            'categories'
         ]));
     }
 

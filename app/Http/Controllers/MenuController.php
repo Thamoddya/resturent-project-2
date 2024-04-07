@@ -41,6 +41,7 @@ class MenuController extends Controller
         $menu = Menu::create([
             "hotel_id" => $user->hotel_id,
             "menu_name" => $validatedData['menu_name'],
+            "category_id" => $validatedData['category_id'],
             "menu_price" => $validatedData['menu_price'],
             "menu_image_path" => '/images/menus/' . $filename,
             "menu_description" => $validatedData['menu_description'],

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Category;
 use App\Models\Hotel;
 use App\Models\Menu;
 use App\Models\Order;
@@ -37,34 +38,32 @@ class OrderController extends Controller
 
     public function TableByFood($id)
     {
-
         $table = Table::where('table_id', $id)->first();
 
-        $hotel = Hotel::where('id', $table->hotel_id)->first();
-
-        // $qrCode = QrCode::create(url()->route('table-id-food', 1))
-        //     ->setEncoding(new Encoding('UTF-8'))
-        //     ->setErrorCorrectionLevel(ErrorCorrectionLevel::Low)
-        //     ->setSize(100)
-        //     ->setMargin(10)
-        //     ->setForegroundColor(new Color(0, 0, 0));
-        // $writer = new PngWriter();
-        // $result = $writer->write($qrCode);
-        // $dataUri = $result->getDataUri();
-
-        $menus = Menu::where('hotel_id', $table->hotel_id)
-            ->where('menu_available', '1')
-            ->get();
         if ($table == null) {
             return "Invalid Table ID";
-        } else {
-            return view('Hotel.TableOrder', compact([
-                'table',
-                'menus',
-                'hotel',
-            ]));
         }
+
+        $hotel = Hotel::where('id', $table->hotel_id)->first();
+        $categories = Category::where('hotel_id', $table->hotel_id)->get();
+
+        // Fetching menus grouped by category
+        $menusByCategory = [];
+        foreach ($categories as $category) {
+            $menusByCategory[$category->name] = Menu::where('hotel_id', $table->hotel_id)
+                ->where('menu_available', '1')
+                ->where('category_id', $category->id)
+                ->get();
+        }
+
+        return view('Hotel.TableOrder', compact([
+            'table',
+            'categories',
+            'menusByCategory',
+            'hotel',
+        ]));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -146,7 +145,7 @@ class OrderController extends Controller
         }
         $table = Table::where('table_id', $data['tableId'])->first();
         $order = Order::create([
-            "hotel_id" =>$data['hotelId'] ,
+            "hotel_id" => $data['hotelId'],
             "table_id" => $table->id,
             "order_id" => $orderID,
             "isPaid" => 0,
@@ -178,8 +177,8 @@ class OrderController extends Controller
         ]);
 
         return response()->json([
-            "attempt" =>$data['tableId'],
-            "orderID"=>$orderID
+            "attempt" => $data['tableId'],
+            "orderID" => $orderID
         ]);
 
 
@@ -226,13 +225,14 @@ class OrderController extends Controller
             $order->update(
                 [
                     'isPaid' => 1,
-                ]);
+                ]
+            );
 
             Transaction::create([
-                "hotel_id" =>$order->hotel_id,
-                "order_id"=>$order->order_id,
-                "total_price"=>$order->getOrderTotal(),
-                "invoice_id"=>$invoiceID,
+                "hotel_id" => $order->hotel_id,
+                "order_id" => $order->order_id,
+                "total_price" => $order->getOrderTotal(),
+                "invoice_id" => $invoiceID,
             ]);
 
             return response()->json(['message' => 'success', 'order' => $order], 200);
@@ -242,22 +242,22 @@ class OrderController extends Controller
     }
 
 
-    public function completeOrder($id){
+    public function completeOrder($id)
+    {
 
         $user = auth()->user();
         $order = Order::where('order_id', $id)
-        ->where('hotel_id', $user->hotel_id)
-        ->first();
+            ->where('hotel_id', $user->hotel_id)
+            ->first();
 
-        if($order){
+        if ($order) {
             $order->update([
-                "isCompleted"=>1,
-                "completed_by"=>$user->id
+                "isCompleted" => 1,
+                "completed_by" => $user->id
             ]);
-            return redirect()->back()->with("success","Order Completed");
-        }
-        else{
-            return redirect()->back()->with("Error","Error Occured");
+            return redirect()->back()->with("success", "Order Completed");
+        } else {
+            return redirect()->back()->with("Error", "Error Occured");
         }
     }
 
@@ -273,5 +273,5 @@ class OrderController extends Controller
             return redirect()->back()->with("error", "Error Occured");
         }
     }
-    
+
 }

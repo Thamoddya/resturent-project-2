@@ -73,7 +73,7 @@
 
                                     <div class="input-group flex-nowrap mb-3">
                                         <span class="input-group-text" id="addon-wrapping">Hotel Address</span>
-                                        <input type="text" maxlength="10" max="10" name="hotel_address"
+                                        <input type="text" name="hotel_address"
                                             class="form-control" placeholder="Hotel Address" aria-label="Username"
                                             aria-describedby="addon-wrapping">
                                     </div>

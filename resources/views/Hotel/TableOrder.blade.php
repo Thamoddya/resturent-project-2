@@ -18,11 +18,53 @@
             padding: 0;
             background-color: #f8f8f8;
         }
+        .buttonDownload {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            list-style: none;
+            border-collapse: collapse;
+            border-spacing: 0;
+            box-sizing: border-box;
+            font: inherit;
+            -webkit-appearance: button;
+            font-family: inherit;
+            vertical-align: middle;
+            background-image: none;
+            display: inline-block;
+            margin-bottom: 0;
+            text-align: center;
+            touch-action: manipulation;
+            cursor: pointer;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .18);
+            font-weight: 600;
+            text-transform: uppercase;
+            outline: 0 !important;
+            transition: box-shadow .28s cubic-bezier(.4, 0, .2, 1);
+            border-radius: 2px;
+            border-width: 0 !important;
+            overflow: hidden;
+            position: relative;
+            user-select: none;
+            font-size: 11px;
+            padding: 13px 38px;
+            margin-top: 0;
+            margin-left: 0;
+            margin-right: 5px;
+            line-height: 1.44;
+            color: #FFF;
+            background-color: #1BBC9B;
+            border-color: #1BBC9B;
+            text-decoration: none;
+            width: 100%
+        }
+
     </style>
 
 </head>
 
-<body>
+<body style="overflow-x: hidden">
 
     <nav class="navbar" style="background: #333333">
         <div class="container-fluid">
@@ -52,35 +94,34 @@
         <div class="row">
             <div class="col-12 col-md-7 mt-3">
                 <div class="row">
-
-                    @foreach ($menus as $food)
-                        <div class="col-6 col-md-3 p-2">
-                            <!-- Add a unique identifier to each item for tracking -->
-                            <div class="row" id="food_{{ $food->id }}">
-                                <div class="col-12">
-                                    @if ($food->menu_image_path == null)
-                                        <img src="{{ asset('assets/images/section/menu-slider-1.jpg') }}"
-                                            class="img-fluid card-img rounded-start" alt="...">
-                                    @else
-                                        <img src="{{ $food->menu_image_path }}" class="img-fluid card-img rounded-start"
-                                            alt="...">
-                                    @endif
-                                </div>
-                                <div class="col-12">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">{{ $food->menu_name }}</h5>
-                                        <p class="card-text">{{ Str::limit($food->menu_description, 50) }}.</p>
-                                        <p class="card-text">Rs:- {{ $food->menu_price }}.00</p>
-                                        <!-- Add a button to select the item -->
-                                        <button class="btn btn-primary rounded-0"
-                                            onclick="selectItem({{ $food->id }}, '{{ $food->menu_name }}', {{ $food->menu_price }})">
-                                            SELECT
-                                        </button>
+                    @foreach ($categories as $category)
+                    <p class="d-inline-flex gap-1">
+                        <button class="buttonDownload" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category->name }}" aria-expanded="false" aria-controls="{{ $category->name }}">
+                            {{ $category->name }}
+                        </button>
+                    </p>
+                    <div class="collapse" id="{{ $category->name }}">
+                        <div class="card card-body ">
+                            <div class="row">
+                                @foreach ($menusByCategory[$category->name] as $food)
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 p-2">
+                                    <div class="card h-100 justify-content-center align-items-center">
+                                        <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}" class="img-fluid card-img-top rounded-start p-2" style="height: 100px;width: 250px" alt="...">
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}</h5>
+                                            <p class="card-text flex-grow-1">{{ Str::limit($food->menu_description, 50) }}.</p>
+                                            <p class="card-text">Rs:- {{ $food->menu_price }}.00</p>
+                                            <button class="btn btn-primary mt-auto rounded-0" onclick="selectItem({{ $food->id }}, '{{ $food->menu_name }}', {{ $food->menu_price }})">
+                                                SELECT
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
+                            @endforeach
                             </div>
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
                 </div>
             </div>
             <div class="col-12 col-md-5 mb-4">

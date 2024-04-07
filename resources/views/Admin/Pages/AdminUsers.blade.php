@@ -5,13 +5,13 @@
             <div class="col-12 ">
                 <div class="row bg-white align-items-center">
                     <div class="col-4 d-flex justify-content-center align-items-center p-3">
-                        <h5><i class="fa-solid fa-user text-dark"></i> {{$hotel_admins_count}}</h5>
+                        <h5><i class="fa-solid fa-user text-dark"></i> {{ $hotel_admins_count }}</h5>
                     </div>
                     <div class="col-4 d-flex justify-content-center align-items-center p-3">
-                        <h5><i class="fa-solid fa-fire-burner text-dark"></i> {{$hotel_employees_count}}</h5>
+                        <h5><i class="fa-solid fa-fire-burner text-dark"></i> {{ $hotel_employees_count }}</h5>
                     </div>
                     <div class="col-4 d-flex justify-content-center align-items-center p-3">
-                        <h5><i class="fa-solid fa-users-gear text-dark"></i> {{$hotel_cacher_count}}</h5>
+                        <h5><i class="fa-solid fa-users-gear text-dark"></i> {{ $hotel_cacher_count }}</h5>
                     </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@
 
                                     <div class="input-group flex-nowrap mb-3">
                                         <span class="input-group-text" id="addon-wrapping">User Address</span>
-                                        <input type="text" maxlength="10" max="10" name="address"
+                                        <input type="text"  name="address"
                                             class="form-control" placeholder="User Address" aria-label="Username"
                                             aria-describedby="addon-wrapping">
                                     </div>
@@ -123,17 +123,25 @@
                     </thead>
                     <tbody class="table-group-divider ">
 
-                        
+
                         @foreach ($usersExceptLoggedInUsers as $usersExceptLoggedInUser)
-                        {{-- @dd($usersExceptLoggedInUser->getRoleNames()); --}}
+                            {{-- @dd($usersExceptLoggedInUser->getRoleNames()); --}}
                             <tr class="">
                                 <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->id }}</th>
-                                    <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->name }}</th>
-                                        <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->hotels->hotel_name }}</th>
-                                            <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->getRoleNames()->first() }}</th>
-                                                <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->nic }}</th>
-                                                <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->mobile }}</th>
-                                                    <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->email }}</th>
+                                <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->name }}</th>
+                                    @if ($usersExceptLoggedInUser->hotels)
+                                    <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->hotels->hotel_name }}
+                                    </th>
+                                    @else
+                                    <td class="text-center" scope="row">Not Assigned
+                                    </th>
+                                    @endif
+                                    <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->nic }}</th>
+                                <td class="text-center" scope="row">
+                                    {{ $usersExceptLoggedInUser->getRoleNames()->first() }}</th>
+                                
+                                <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->mobile }}</th>
+                                <td class="text-center" scope="row">{{ $usersExceptLoggedInUser->email }}</th>
                                 <td class="text-center"><button class="btn btn-primary rounded-0">VIEW</button></td>
                             </tr>
                         @endforeach

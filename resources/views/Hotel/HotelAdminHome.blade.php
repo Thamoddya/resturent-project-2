@@ -141,16 +141,12 @@
                                                     </a>
                                                 @endif
                                             </td>
-                                            <td><a href="{{route('table-id-food',$table->table_id)}}">View Table</a></td>
+                                            <td><a href="{{ route('table-id-food', $table->table_id) }}">View Table</a></td>
                                             <td class="text-center">
-                                                @php
-                                                    $qrCodeData = url('/table-food/' . $table->table_id);
-                                                    $imagePath = public_path('assets/images/cropped-texta-logo-1.png');
-                                                    $qrCode = QrCode::merge($imagePath, 0.3, true)->generate(
-                                                        $qrCodeData,
-                                                    );
-                                                @endphp
-                                                {!! $qrCode !!}
+                                                {{-- {!! $table->generateQr() !!} --}}
+                                                {{-- @dd($table->generateQr()) --}}
+                                                {{-- <img src="{{$table->generateQr()}}" style="width: 150;height: 150;" alt=""> --}}
+                                                {!! QrCode::size(100)->generate('RemoteStack') !!}
                                             </td>
                                             </tr>
                                             @endforeach
