@@ -145,8 +145,9 @@
                                             <td class="text-center">
                                                 {{-- {!! $table->generateQr() !!} --}}
                                                 {{-- @dd($table->generateQr()) --}}
-                                                {{-- <img src="{{$table->generateQr()}}" style="width: 150;height: 150;" alt=""> --}}
-                                                {!! QrCode::size(100)->generate('RemoteStack') !!}
+                                                <img style="width: 100px;height: 100px;" src="{{$table->generateQr()}}"  alt="">
+                                                {{-- @dd($table->generateQr()) --}}
+                                                {{-- {!! QrCode::size(100)->generate('RemoteStack') !!} --}}
                                             </td>
                                             </tr>
                                             @endforeach

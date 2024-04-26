@@ -12,12 +12,17 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
     <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f8f8f8;
         }
+
         .buttonDownload {
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
@@ -60,6 +65,14 @@
             width: 100%
         }
 
+        body {
+            background-image: url("{{ asset('assets/images/bgImage.svg') }}");
+            background-size: cover;
+            background-repeat: repeat;
+            background-attachment: fixed;
+            backface-visibility: initial;
+
+        }
     </style>
 
 </head>
@@ -84,44 +97,51 @@
         <script type="text/javascript">
             setTimeout(function() {
                 location.reload();
-            }, 5000);
+            }, 10000);
         </script>
-        {{exit()}}
+        {{ exit() }}
     @endif
-    
+
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-7 mt-3">
                 <div class="row">
                     @foreach ($categories as $category)
-                    <p class="d-inline-flex gap-1">
-                        <button class="buttonDownload" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category->name }}" aria-expanded="false" aria-controls="{{ $category->name }}">
-                            {{ $category->name }}
-                        </button>
-                    </p>
-                    <div class="collapse" id="{{ $category->name }}">
-                        <div class="card card-body ">
-                            <div class="row">
-                                @foreach ($menusByCategory[$category->name] as $food)
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 p-2">
-                                    <div class="card h-100 justify-content-center align-items-center">
-                                        <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}" class="img-fluid card-img-top rounded-start p-2" style="height: 100px;width: 250px" alt="...">
-                                        <div class="card-body d-flex flex-column">
-                                            <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}</h5>
-                                            <p class="card-text flex-grow-1">{{ Str::limit($food->menu_description, 50) }}.</p>
-                                            <p class="card-text">Rs:- {{ $food->menu_price }}.00</p>
-                                            <button class="btn btn-primary mt-auto rounded-0" onclick="selectItem({{ $food->id }}, '{{ $food->menu_name }}', {{ $food->menu_price }})">
-                                                SELECT
-                                            </button>
+                        <p class="d-inline-flex gap-1">
+                            <button class="buttonDownload" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#{{ $category->name }}" aria-expanded="false"
+                                aria-controls="{{ $category->name }}">
+                                {{ $category->name }}
+                            </button>
+                        </p>
+                        <div class="collapse" id="{{ $category->name }}">
+                            <div class="card card-body ">
+                                <div class="row">
+                                    @foreach ($menusByCategory[$category->name] as $food)
+                                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 p-2">
+                                            <div class="card h-100 justify-content-center align-items-center">
+                                                <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
+                                                    class="img-fluid card-img-top rounded-start p-2"
+                                                    style="height: 100px;width: 250px" alt="...">
+                                                <div class="card-body d-flex flex-column">
+                                                    <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}
+                                                    </h5>
+                                                    <p class="card-text flex-grow-1">
+                                                        {{ Str::limit($food->menu_description, 50) }}.</p>
+                                                    <p class="card-text">Rs:- {{ $food->menu_price }}.00</p>
+                                                    <button class="btn btn-primary mt-auto rounded-0"
+                                                        onclick="selectItem({{ $food->id }}, '{{ $food->menu_name }}', {{ $food->menu_price }})">
+                                                        SELECT
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
-                            @endforeach
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
                 </div>
             </div>
             <div class="col-12 col-md-5 mb-4">
