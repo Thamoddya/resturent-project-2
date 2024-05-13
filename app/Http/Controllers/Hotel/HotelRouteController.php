@@ -29,6 +29,7 @@ class HotelRouteController extends Controller
         $data = "http://192.168.0.100:8000/table-food/65e1c6b270a0c";
         $qrCode = QrCode::generate($data);
 
+        $categories = Category::where('hotel_id', $user['hotel_id'])->get();
 
         return view("Hotel.HotelAdminHome", compact([
             "user",
@@ -38,8 +39,25 @@ class HotelRouteController extends Controller
             "totalPrice",
             "tables",
             "transactions",
-            'qrCode'
+            'qrCode',
+            'categories'
         ]));
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'category_name' => 'required|string',
+        ]);
+
+        $user = self::HotelAdminData();
+
+        $category = new Category();
+        $category->name = $request->category_name;
+        $category->hotel_id = $user->hotel_id;
+        $category->save();
+
+        return redirect()->back()->with('success', 'Category Added Successfully');
     }
 
     public function HotelAdminUsers()

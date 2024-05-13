@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Hotel;
 use App\Models\Table;
 use App\Models\Transaction;
@@ -67,25 +68,18 @@ class AdminRouteController extends Controller
         if ($hotelData === null) {
             return redirect()->route('SuperAdmin.Hotels'); // Redirect to the AdminHotels route
         } else {
-            // Get the roles 'Hotel_Employee' and 'Hotel_Casher'
             $roles = Role::whereIn('name', ['Hotel_Employee', 'Hotel_Casher'])->pluck('id');
-
-            // Count the employees with the specified roles related to the hotel
             $employeesCount = User::where('hotel_id', $hotelData->id)
                 ->whereHas('roles', function ($query) use ($roles) {
                     $query->whereIn('role_id', $roles);
                 })
                 ->count();
-
             $transactions = Transaction::where('hotel_id', $hotelData->id)->get();
-
-            // Calculate the total count of transactions
             $transactionCount = $transactions->count();
-
-            // Calculate the total price of all transactions
             $totalPrice = $transactions->sum('total_price');
 
             $tables = Table::where('hotel_id', $hotelData->id)->get();
+            $categories = Category::where('hotel_id', $hotelData->id)->get();
             return view('Admin.Pages.AdminHotelData', compact([
                 'user',
                 'hotelData',
@@ -93,7 +87,8 @@ class AdminRouteController extends Controller
                 'employeesCount',
                 'transactionCount',
                 'totalPrice',
-                'tables'
+                'tables',
+                'categories'
             ]));
         }
     }

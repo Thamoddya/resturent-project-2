@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['middleware' => ['role:Hotel_Admin']], function () {
 
         Route::prefix('hotelAdmin')->group(function () {
+
             Route::get('/Home', [HotelRouteController::class, 'HotelAdminHome'])->name('HotelAdmin.Home');
             Route::get('/Users', [HotelRouteController::class, 'HotelAdminUsers'])->name('HotelAdmin.users');
             Route::get('/Menus', [HotelRouteController::class, 'HotelAdminMenus'])->name('HotelAdmin.Menus');
@@ -39,6 +40,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/update-table-up/{id}',[TableController::class,'updateStatusUp'])->name("UpdateTableStatusUp");
 
             Route::get('/delete-order/{id}',[OrderController::class,'deleteOrder'])->name("Delete.order");
+            Route::post('/add-category', [HotelRouteController::class, 'storeCategory'])->name('AddCategory');
+
+           
         });
     });
 
