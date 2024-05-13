@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/generatepdf/{id}', [App\Http\Controllers\PDFController::class, 'generateOrderInvoice'])->name('generateInvoice');
 
 Route::middleware('auth')->group(function () {
 
@@ -100,4 +101,6 @@ Route::post('/create-order-new', [OrderController::class, 'storeNew'])->name('Or
 Route::get('/order/{id}',[UserController::class,'OrderPage'])->name('Order.page');
 Route::get('/getHash/{id}',[TransactionController::class,'PaymentHash'])->name('GetHashToken');
 Route::get('/confirm-payment/{id}',[OrderController::class,'confirmPayment'])->name('confirm.order.payment');
+
+Route::get('/{name}', [PublicRouteController::class, 'getHotel']);
 Route::get('/', [PublicRouteController::class, 'login'])->name('login');

@@ -18,19 +18,15 @@ class HotelRouteController extends Controller
     public function HotelAdminHome()
     {
         $user = self::HotelAdminData();
-
         $hotelData = HotelData::getUserHotelData($user);
         $employeesCount = HotelData::getHotelEmployeeCount($user);
         $transactionCount = HotelData::getHotelTransactionsCount($user);
         $totalPrice = HotelData::getHotelIncomeTotal($user);
         $tables = HotelData::getTables($user);
         $transactions = HotelData::getLast10Transactions($user);
-
         $data = "http://192.168.0.100:8000/table-food/65e1c6b270a0c";
         $qrCode = QrCode::generate($data);
-
         $categories = Category::where('hotel_id', $user['hotel_id'])->get();
-
         return view("Hotel.HotelAdminHome", compact([
             "user",
             "hotelData",
@@ -43,15 +39,12 @@ class HotelRouteController extends Controller
             'categories'
         ]));
     }
-
     public function storeCategory(Request $request)
     {
         $request->validate([
             'category_name' => 'required|string',
         ]);
-
         $user = self::HotelAdminData();
-
         $category = new Category();
         $category->name = $request->category_name;
         $category->hotel_id = $user->hotel_id;

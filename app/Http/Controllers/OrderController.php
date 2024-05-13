@@ -64,7 +64,6 @@ class OrderController extends Controller
         ]));
     }
 
-
     /**
      * Show the form for creating a new resource.
      */
@@ -107,7 +106,6 @@ class OrderController extends Controller
                 "Error" => "Failed to create order"
             ]);
         }
-
         for ($i = 0; $i < count($data['selectedItems']); $i++) {
             $orderedMenu = OrderdMenu::create([
                 "order_id" => $order->id,
@@ -116,20 +114,16 @@ class OrderController extends Controller
                 "qty" => $data['selectedItems'][$i]['quantity'],
             ]);
         }
-
         $table = Table::where('id', $data['tableId'])->first();
         $table->update([
             "isReserved" => 1
         ]);
-
         return response()->json([
             "attempt" => $data['selectedItems']
         ]);
     }
-
     public function storeNew(Request $request)
     {
-
         $data = $request->all();
         $orderID = hexdec(hash('crc32b', Str::uuid()));
 
@@ -153,15 +147,12 @@ class OrderController extends Controller
             "customer_mobile" => $data['mobile'],
             "customer_email" => $data['email'],
         ]);
-
-        // Log order creation
         if (!$order) {
             \Log::error('Error creating order');
             return response()->json([
                 "Error" => "Failed to create order"
             ]);
         }
-
         for ($i = 0; $i < count($data['selectedItems']); $i++) {
             $orderedMenu = OrderdMenu::create([
                 "order_id" => $order->id,

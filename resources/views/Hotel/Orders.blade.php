@@ -36,7 +36,7 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active " aria-current="page" href="{{route('auth.logout')}}">Logout</a>
+                        <a class="nav-link active " aria-current="page" href="{{ route('auth.logout') }}">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -82,6 +82,7 @@
                                         <th scope="col">Invoice ID</th>
                                         <th scope="col">Employee</th>
                                         <th scope="col">Complete Order</th>
+                                        <th scope="col">Invoice</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,6 +127,11 @@
                                                 <a href="{{ route('Complete.Order', $order->order_id) }}"
                                                     class="btn btn-danger">Complete Order</a>
                                             </td>
+                                            <td>
+                                                <a href="{{route('generateInvoice',$order->order_id)}}">
+                                                    <button class="btn btn-primary rounded-0">Invoice</button>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -157,7 +163,7 @@
                                             <th scope="col">Complete Payment</th>
                                         @endcan
                                         @role('Hotel_Admin')
-                                        <th class="text-danger">Delete</th>
+                                            <th class="text-danger">Delete</th>
                                         @endrole
                                     </tr>
                                 </thead>
@@ -230,7 +236,11 @@
         </script>
     @endrole
 
-    @include('Components.FooterImports')
+
+    <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/index.js') }}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+
 </body>
 
 </html>

@@ -122,7 +122,6 @@ class UserController extends Controller
         ->get();
 
         return view('Hotel.Orders',compact('user','orders','PaidOrders'));
-
     }
 
     public function OrderPage($id){
