@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Ordering System</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -62,7 +63,6 @@
             background-color: #1BBC9B;
             border-color: #1BBC9B;
             text-decoration: none;
-            width: 100%
         }
 
         body {
@@ -71,10 +71,35 @@
             background-repeat: repeat;
             background-attachment: fixed;
             backface-visibility: initial;
+        }
 
+        .navbar-brand img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .card img {
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .category-buttons {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px;
+            background: #333333;
+        }
+
+        .category-buttons button {
+            margin-right: 5px;
+            flex: 0 0 auto;
+        }
+
+        .selected-foods {
+            min-height: 150px;
+            background-color: #e9ecef;
         }
     </style>
-
 </head>
 
 <body style="overflow-x: hidden">
@@ -104,108 +129,108 @@
 
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-7 mt-3">
-                <div class="row">
-                    @foreach ($categories as $category)
-                        <p class="d-inline-flex gap-1">
-                            <button class="buttonDownload" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#{{ $category->name }}" aria-expanded="false"
-                                aria-controls="{{ $category->name }}">
-                                {{ $category->name }}
-                            </button>
-                        </p>
-                        <div class="collapse" id="{{ $category->name }}">
-                            <div class="card card-body ">
-                                <div class="row">
-                                    @foreach ($menusByCategory[$category->name] as $food)
-                                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 p-2">
-                                            <div class="card h-100 justify-content-center align-items-center">
-                                                <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
-                                                    class="img-fluid card-img-top rounded-start p-2"
-                                                    style="height: 100px;width: 250px" alt="...">
-                                                <div class="card-body d-flex flex-column">
-                                                    <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}
-                                                    </h5>
-                                                    <p class="card-text flex-grow-1">
-                                                        {{ Str::limit($food->menu_description, 50) }}.</p>
-                                                    <p class="card-text">Rs:- {{ $food->menu_price }}.00</p>
-                                                    <button class="btn btn-primary mt-auto rounded-0"
-                                                        onclick="selectItem({{ $food->id }}, '{{ $food->menu_name }}', {{ $food->menu_price }})">
-                                                        SELECT
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-            <div class="col-12 col-md-5 mb-4">
-                <div class="row">
-                    <div class="col-12 bg-secondary">
-                        <h3 class="text-center mt-2">Selected Foods</h3>
-                    </div>
-                    <div class="col-12  mt-2">
-                        <div class="row selected-foods">
-                        </div>
-                    </div>
-                    <div class="col-12 ">
-                        <div class="row d-flex">
-                            <div class="col-8 total-price bg-secondary bg-opacity-50">
-                            </div>
-                            <button
-                                class=" col-4 btn btn-success rounded-0 d-flex justify-content-center align-items-center"
-                                data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                CheckOut
-                            </button>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Order Details</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+        <div class="row">
+            <div class="col-12 mt-3 category-buttons d-flex flex-row">
+                @foreach ($categories as $category)
+                    <button class="buttonDownload" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#{{ $category->name }}" aria-expanded="false"
+                        aria-controls="{{ $category->name }}">
+                        {{ $category->name }}
+                    </button>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="row">
+            @foreach ($categories as $category)
+                <div class="collapse" id="{{ $category->name }}" style="background-color: transparent">
+                    <div class="card card-body " style="background-color: transparent">
+                        <div class="row">
+                            @foreach ($menusByCategory[$category->name] as $food)
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-3 p-2">
+                                    <div class="card h-100 justify-content-center align-items-center">
+                                        <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
+                                            class="img-fluid card-img-top rounded-start p-2"
+                                            style="height: 150px;width: 250px" alt="...">
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}
+                                            </h5>
+                                            <p class="card-text flex-grow-1">
+                                                {{ Str::limit($food->menu_description, 50) }}.</p>
+                                            <p class="card-text">Rs:- {{ $food->menu_price }}.00</p>
+                                            <button class="btn btn-primary mt-auto rounded-0"
+                                                onclick="selectItem({{ $food->id }}, '{{ $food->menu_name }}', {{ $food->menu_price }})">
+                                                SELECT
+                                            </button>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlInput1"
-                                                            class="form-label">Name</label>
-                                                        <input type="text" id="name" class="form-control"
-                                                            placeholder="Jemmy Thomas">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlInput1"
-                                                            class="form-label">Email</label>
-                                                        <input type="text" id="email" class="form-control"
-                                                            placeholder="name@example.com">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlInput1" class="form-label">Mobile
-                                                            (Optional)</label>
-                                                        <input type="text" id="mobile" class="form-control"
-                                                            placeholder="072 000 0000">
-                                                    </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="col-12 mt-3">
+            <div class="row">
+                <div class="col-12 bg-secondary">
+                    <h3 class="text-center mt-2">Selected Foods</h3>
+                </div>
+                <div class="col-12  mt-2">
+                    <div class="row selected-foods">
+                    </div>
+                </div>
+                <div class="col-12 ">
+                    <div class="row d-flex">
+                        <div class="col-8 total-price bg-secondary bg-opacity-50">
+                        </div>
+                        <button
+                            class=" col-4 btn btn-success rounded-0 d-flex justify-content-center align-items-center"
+                            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            CheckOut
+                        </button>
+
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Order Details</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label for="exampleFormControlInput1"
+                                                        class="form-label">Name</label>
+                                                    <input type="text" id="name" class="form-control"
+                                                        placeholder="Jemmy Thomas">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="exampleFormControlInput1"
+                                                        class="form-label">Email</label>
+                                                    <input type="text" id="email" class="form-control"
+                                                        placeholder="name@example.com">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="exampleFormControlInput1" class="form-label">Mobile
+                                                        (Optional)</label>
+                                                    <input type="text" id="mobile" class="form-control"
+                                                        placeholder="072 000 0000">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close
-                                            </button>
-                                            <button type="button" class="btn btn-primary"
-                                                onclick="makeOrder();">Confirm
-                                            </button>
-                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary" onclick="makeOrder();">Confirm
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -221,8 +246,6 @@
         let total;
 
         document.addEventListener('DOMContentLoaded', function() {
-            // JavaScript code for dynamic updates
-
 
             // Function to update the UI with selected items and total price
             function updateUI() {
@@ -242,6 +265,7 @@
                 </div>`;
                     selectedFoodsElement.appendChild(itemElement);
                 });
+
                 // Display the total price
                 total = calculateTotalPrice();
                 const totalElement = document.querySelector('.total-price');

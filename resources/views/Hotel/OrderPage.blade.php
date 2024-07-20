@@ -210,44 +210,30 @@
                 dataType: "json",
                 success: function(data) {
                     console.log(data);
+
                     payhere.onCompleted = function onCompleted(orderId) {
-                        // $.ajax({
-                        //     url: `{{ url('/confirm-payment/') }}/${orderID}`,
-                        //     method: "get",
-                        //     data: {
-                        //         'orderID': orderID
-                        //     },
-                        //     dataType: "json",
-                        //     success: function(data) {
-                        //         if (data.message === 'success') {
-                        //             window.location.reload();
-                        //             startAutoRefresh();
-                        //         } else {
-                        //             alert('Error Occurred , Contact Administrator');
-                        //         }
-                        //     }
-                        // });
-                        alert('Payment is successful. Order ID :' + orderId);
+                        console.log("OrderID:" + orderId);
                     };
+
                     payhere.onDismissed = function onDismissed() {
-                        startAutoRefresh();
                         console.log("Payment dismissed");
                     };
+
                     payhere.onError = function onError(error) {
-                        startAutoRefresh();
                         console.log("Error:" + error);
                     };
+
                     var payment = {
                         "sandbox": true,
-                        "merchant_id": "{{ config('app.payhere.merchant_id') }}",
-                        "return_url": undefined,
-                        "cancel_url": undefined,
+                        "merchant_id": data.merchant_id,
+                        "return_url": "http://localhost:8000/cart",
+                        "cancel_url": "http://localhost:8000/cart",
                         "notify_url": "http://sample.com/notify",
                         "order_id": data.order_id,
-                        "items": `${data.items}`,
-                        "amount": `${data.amount}`,
-                        "currency": `${data.currency}`,
-                        "hash": `${data.hash}`,
+                        "items": data.items,
+                        "amount": data.amount,
+                        "currency": data.currency,
+                        "hash": data.hash,
                         "first_name": data.first_name,
                         "last_name": data.last_name,
                         "email": data.email,
@@ -258,7 +244,9 @@
                         "delivery_address": data.address,
                         "delivery_city": data.city,
                         "delivery_country": data.country,
+                        "itemData": data.itemData
                     };
+                    console.log(payment);
                     payhere.startPayment(payment);
                 },
                 error: function(xhr, status, error) {

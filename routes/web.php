@@ -25,7 +25,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/Hotels', [AdminRouteController::class, 'AdminHotels'])->name('SuperAdmin.Hotels');
             Route::get('/Users', [AdminRouteController::class, 'AdminUsers'])->name('SuperAdmin.Users');
             Route::get('/HotelDetails/{id}', [AdminRouteController::class, 'AdminHotelDetails'])->name('SuperAdmin.HotelDetails');
-
         });
     });
 
@@ -43,7 +42,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/delete-order/{id}',[OrderController::class,'deleteOrder'])->name("Delete.order");
             Route::post('/add-category', [HotelRouteController::class, 'storeCategory'])->name('AddCategory');
 
-           
+        
         });
     });
 

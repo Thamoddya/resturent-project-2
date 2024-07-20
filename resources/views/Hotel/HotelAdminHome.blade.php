@@ -1,4 +1,4 @@
-@extends('Hotel.Content.HomeContent')
+ @extends('Hotel.Content.HomeContent')
 
 @section('HotelAdminContent')
     <div class="container-fluid">

@@ -189,6 +189,6 @@ return [
     ])->toArray(),
     'payhere' => [
         'merchant_id' => env('PAYHERE_MERCHANT_ID', '1224284'),
-        'secret' => env('PAYHERE_MERCHANT_SECRET', 'NDEyNzg1MjgzNzMxODk3NTk0ODcxMTA2ODEyNzY4MjkyODk1OTEzNA==')
+        'secret' => env('PAYHERE_MERCHANT_SECRET', 'MTQ2NjY1NjE4OTE2ODU1OTg4MDA3NTQ4Mzc0Mzk1Njc2NDE1MA==')
     ],
 ];

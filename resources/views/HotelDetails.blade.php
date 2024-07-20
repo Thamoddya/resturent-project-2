@@ -9,19 +9,74 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Custom CSS -->
     <style>
-        /* Add your custom CSS styles here */
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: #B22222;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .nav-link {
+            color: white;
+        }
+
+        .nav-link:hover {
+            color: #FFD700;
+        }
+
+        h2 {
+            color: #B22222;
+        }
+
+        .list-group-item {
+            cursor: pointer;
+            background-color: #FFD700;
+            color: #B22222;
+        }
+
+        .list-group-item:hover {
+            background-color: #B22222;
+            color: white;
+        }
+
+        .card {
+            border: 2px solid #B22222;
+        }
+
+        .card-title {
+            color: #B22222;
+        }
+
+        .card-text {
+            color: #333;
+        }
+
+        .btn-primary {
+            background-color: #B22222;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #FFD700;
+            color: #B22222;
+        }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="{{asset($hotel->hotel_image_path)}}" alt="Hotel Logo" width="50" height="50" class="mr-2">
                 {{$hotel->hotel_name}}
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
