@@ -61,7 +61,7 @@
                                         <h5>Hotel Admin Details</h5>
                                         <hr>
                                         <h6>Name : <span class="text-secondary">{{ $hotelData->user->name }}</span></h6>
-                                        <h6>NIC No : <span class="text-secondary">{{ $hotelData->user->mobile }}</span></h6>
+                                        <h6>NIC No : <span class="text-secondary">{{ $hotelData->user->nic }}</span></h6>
                                         <h6>Address : <span class="text-secondary">{{ $hotelData->user->address }}.</span>
                                         </h6>
                                         <h6>Created : <span

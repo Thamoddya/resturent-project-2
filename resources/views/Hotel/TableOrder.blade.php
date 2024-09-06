@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Ordering System</title>
+    <title>Food Ordering System Hotel</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -121,7 +121,7 @@
 
         <script type="text/javascript">
             setTimeout(function() {
-                location.reload();
+                window.location.reload();
             }, 10000);
         </script>
         {{ exit() }}
@@ -133,7 +133,7 @@
         <div class="row">
             <div class="col-12 mt-3 category-buttons d-flex flex-row">
                 @foreach ($categories as $category)
-                    <button class="buttonDownload" type="button" data-bs-toggle="collapse"
+                    <button class="buttonDownload category-btn" type="button" data-bs-toggle="collapse"
                         data-bs-target="#{{ $category->name }}" aria-expanded="false"
                         aria-controls="{{ $category->name }}">
                         {{ $category->name }}
@@ -240,8 +240,28 @@
             </div>
         </div>
     </div>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+        // Get all the category buttons
+        const categoryButtons = document.querySelectorAll('.category-btn');
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the currently active collapse (if any)
+                const activeCollapses = document.querySelectorAll('.collapse.show');
+
+                // Collapse all active collapses except the one related to the clicked button
+                activeCollapses.forEach(collapse => {
+                    if (collapse.id !== button.getAttribute('data-bs-target').substring(1)) {
+                        new bootstrap.Collapse(collapse, {
+                            toggle: false
+                        }).hide();
+                    }
+                });
+            });
+        });
+
+
         let selectedItems = [];
         let total;
 
@@ -299,6 +319,13 @@
                 }
 
                 updateUI();
+
+                swal({
+                    title: "Item Added",
+                    text: "Item added to the cart successfully",
+                    icon: "success",
+                    button: "OK",
+                });
             };
         });
 

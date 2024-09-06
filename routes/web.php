@@ -36,13 +36,11 @@ Route::middleware('auth')->group(function () {
             Route::get('/Users', [HotelRouteController::class, 'HotelAdminUsers'])->name('HotelAdmin.users');
             Route::get('/Menus', [HotelRouteController::class, 'HotelAdminMenus'])->name('HotelAdmin.Menus');
 
-            Route::get('/update-table-down/{id}',[TableController::class,'updateStatusDown'])->name("UpdateTableStatusDown");
-            Route::get('/update-table-up/{id}',[TableController::class,'updateStatusUp'])->name("UpdateTableStatusUp");
+            Route::get('/update-table-down/{id}', [TableController::class, 'updateStatusDown'])->name("UpdateTableStatusDown");
+            Route::get('/update-table-up/{id}', [TableController::class, 'updateStatusUp'])->name("UpdateTableStatusUp");
 
-            Route::get('/delete-order/{id}',[OrderController::class,'deleteOrder'])->name("Delete.order");
+            Route::get('/delete-order/{id}', [OrderController::class, 'deleteOrder'])->name("Delete.order");
             Route::post('/add-category', [HotelRouteController::class, 'storeCategory'])->name('AddCategory');
-
-        
         });
     });
 
@@ -59,7 +57,6 @@ Route::middleware('auth')->group(function () {
         Route::group(['middleware' => ['can:create_hotels']], function () {
             Route::post('/create-Hotel', [HotelController::class, 'store'])->name('Create.Hotel');
             Route::post('/create-table/{id}', [TableController::class, 'store'])->name('Create.table');
-
         });
 
         Route::group(['middleware' => ['can:manage_users']], function () {
@@ -80,7 +77,6 @@ Route::middleware('auth')->group(function () {
         Route::middleware(['can:process_payment'])->group(function () {
             Route::get('/processpayment/{id}', [TransactionController::class, 'store'])->name('Process.Payment');
         });
-        
     });
 
     Route::get('/employee/orders', [UserController::class, 'Orders'])->name('employee.orders');
@@ -93,13 +89,15 @@ Route::prefix("/auth")->group(function () {
     Route::post("/login-process", [AuthController::class, 'login'])->name("auth.login");
 });
 
-Route::get('/table-food/{id}',[OrderController::class,'TableByFood'])->name('table-id-food');
+Route::get('/table-food/{id}', [OrderController::class, 'TableByFood'])->name('table-id-food');
 Route::post('/create-order-new', [OrderController::class, 'storeNew'])->name('Order.createNew');
 
 
-Route::get('/order/{id}',[UserController::class,'OrderPage'])->name('Order.page');
-Route::get('/getHash/{id}',[TransactionController::class,'PaymentHash'])->name('GetHashToken');
-Route::get('/confirm-payment/{id}',[OrderController::class,'confirmPayment'])->name('confirm.order.payment');
+Route::get('/order/{id}', [UserController::class, 'OrderPage'])->name('Order.page');
+Route::get('/getHash/{id}', [TransactionController::class, 'PaymentHash'])->name('GetHashToken');
+Route::get('/confirm-payment/{id}', [OrderController::class, 'confirmPayment'])->name('confirm.order.payment');
 
 Route::get('/{name}', [PublicRouteController::class, 'getHotel']);
 Route::get('/', [PublicRouteController::class, 'login'])->name('login');
+//Pay to casher
+Route::get('/pay-to-casher/{order_id}', [TransactionController::class, 'payToCasher'])->name('payToCasher');

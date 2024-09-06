@@ -81,6 +81,18 @@ class TransactionController extends Controller
     {
         //
     }
+    public function payToCasher($order_id)
+    {
+        $order = Order::where('order_id', $order_id)->first();
+        if ($order) {
+            $order->update([
+                'isPaid' => 2
+            ]);
+            return redirect()->back()->with('success', 'Payment Successfull');
+        } else {
+            return redirect()->back()->with('error', 'Not Found');
+        }
+    }
 
     public function PaymentHash($id)
     {
@@ -138,7 +150,7 @@ class TransactionController extends Controller
         //     'order_id' => $order_id,
         // ]);
 
-        $amount =  1000;
+        $amount = 1000;
         $order_id = uniqid('CRS');
         $currency = "LKR";
         $merchant_id = '1224284';
@@ -146,10 +158,10 @@ class TransactionController extends Controller
         $hash = strtoupper(
             md5(
                 $merchant_id .
-                    $order_id .
-                    number_format($amount, 2, '.', '') .
-                    $currency .
-                    strtoupper(md5($merchant_secret))
+                $order_id .
+                number_format($amount, 2, '.', '') .
+                $currency .
+                strtoupper(md5($merchant_secret))
             )
         );
         return response()->json([

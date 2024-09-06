@@ -51,10 +51,13 @@
                         <h6>PAYMENT STATUS :-
                             @if ($orderData->isPaid == 1)
                                 <span class="text-success">PAID</span>
-                            @else
+                            @endif
+                            @if ($orderData->isPaid == 0)
                                 <span class="text-danger">NOT PAID</span>
                             @endif
-
+                            @if ($orderData->isPaid == 2)
+                                <span class="text-primary">To Cachear</span>
+                            @endif
                         </h6>
                         <h6>PAYMENT METHOD :-
                             @if ($orderData->order_type_id == null)
@@ -66,16 +69,21 @@
                             @endif
                         </h6>
                     </div>
-                    @if ($orderData->isPaid == 0)
+                    @if ($orderData->isPaid == 0 || $orderData->isPaid == 2)
                         <div class="col-12 mt-3 mb-3">
                             <h6>Select Payment Method</h6>
                             <button class="btn btn-primary rounded-0"
                                 onclick="makePayment('{{ $orderData->order_id }}');">PAY ONLINE
                             </button>
-                            <button class="btn btn-success rounded-0">PAY TO CATCHER</button>
-                            {{--                        <button class="btn btn-outline-success rounded-0" data-bs-toggle="modal" --}}
-                            {{--                                data-bs-target="#exampleModal">ADD MORE --}}
-                            {{--                        </button> --}}
+                            @if ($orderData->isPaid == 2)
+                                <button disabled class="btn btn-success rounded-0">PAYED TO CATCHER</button>
+                            @else
+                                <a href="{{ route('payToCasher', $orderData->order_id) }}"><button
+                                        class="btn btn-success rounded-0">PAY TO CATCHER</button></a>
+                            @endif
+                            {{-- <button class="btn btn-outline-success rounded-0" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">ADD MORE
+                            </button> --}}
                         </div>
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"

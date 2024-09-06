@@ -103,35 +103,41 @@ class UserController extends Controller
         //
     }
 
-    public function Orders(){
+    public function Orders()
+    {
         $user = auth()->user();
-        $orders =  Order::with('orderdMenus')
-        ->where('hotel_id', $user->hotel_id)
-        ->where('isPaid', '0')
-        ->where('isCompleted', '0')
-        ->latest()
-        ->take(25)
-        ->get();
+        $orders = Order::with('orderdMenus')
+            ->where('hotel_id', $user->hotel_id)
+            ->where('isPaid', '0')
+            ->where('isCompleted', '0')
+            ->latest()
+            ->get();
 
-        $PaidOrders=  Order::with('orderdMenus')
-        ->where('hotel_id', $user->hotel_id)
-        ->where('isPaid', '1')
-        ->where('isCompleted', '0')
-        ->latest()
-        ->take(25)
-        ->get();
+        $PaidOrders = Order::with('orderdMenus')
+            ->where('hotel_id', $user->hotel_id)
+            ->where('isPaid', '1')
+            ->where('isCompleted', '0')
+            ->latest()
+            ->get();
+        $paidToCatcherOrders = Order::with('orderdMenus')
+            ->where('hotel_id', $user->hotel_id)
+            ->where('isPaid', '2')
+            ->where('isCompleted', '0')
+            ->latest()
+            ->get();
 
-        return view('Hotel.Orders',compact('user','orders','PaidOrders'));
+        return view('Hotel.Orders', compact('user', 'orders', 'PaidOrders','paidToCatcherOrders'));
     }
 
-    public function OrderPage($id){
+    public function OrderPage($id)
+    {
 
 
         $orderData = Order::where('order_id', $id)->first();
 
         $orderdFoods = $orderData->orderdMenus;
 
-        return view('Hotel.OrderPage',compact([
+        return view('Hotel.OrderPage', compact([
             'orderData',
             'orderdFoods',
         ]));
