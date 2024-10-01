@@ -15,11 +15,10 @@ class StoreMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "menu_name"=>"required",
-            "menu_price"=> "required|numeric",
-            "menu_image"=> "required|image",
-            "menu_description"=> "required",
-            "category_id"=> "required|exists:categories,id"
+            "menu_name" => "required",
+            "menu_image" => "required|image",
+            "menu_description" => "required",
+            "category_id" => "required|exists:categories,id"
         ];
     }
 }

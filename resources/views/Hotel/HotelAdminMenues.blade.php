@@ -57,12 +57,6 @@
                                             aria-label="Username" aria-describedby="addon-wrapping">
                                     </div>
 
-                                    <div class="input-group flex-nowrap mb-3">
-                                        <span class="input-group-text" id="addon-wrapping">Menu Price</span>
-                                        <input type="number" name="menu_price" class="form-control"
-                                            placeholder="Menu Prcie" aria-label="Username"
-                                            aria-describedby="addon-wrapping">
-                                    </div>
 
                                     <div class="input-group flex-nowrap mb-3">
                                         <span class="input-group-text" id="addon-wrapping">Menu Image</span>
