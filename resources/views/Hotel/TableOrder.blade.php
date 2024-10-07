@@ -267,30 +267,27 @@
 
         document.addEventListener('DOMContentLoaded', function() {
 
-            // Function to update the UI with selected items and total price
             function updateUI() {
-                // Reference to the element where selected items will be displayed
                 const selectedFoodsElement = document.querySelector('.selected-foods');
-
-                // Clear the existing content
                 selectedFoodsElement.innerHTML = '';
+
                 selectedItems.forEach(item => {
                     const itemElement = document.createElement('div');
                     itemElement.classList = "col-12 p-2 mb-2 rounded rounded-2 bg-opacity-25 bg-secondary";
                     itemElement.innerHTML = `
-                <div class="row">
-                    <div class="col-12  d-flex  align-items-center justify-content-center">
-                       <h6 class="m-3">${item.title}  | Quantity: ${item.quantity}  </h6>  <button class="btn btn-danger btn-sm m-3" onclick="removeItem(${item.id})"> Remove</button>
-                     </div>
-                </div>`;
+            <div class="row">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <h6 class="m-3">${item.title} (${item.type}) | Quantity: ${item.quantity}</h6>
+                    <button class="btn btn-danger btn-sm m-3" onclick="removeItem(${item.id})">Remove</button>
+                </div>
+            </div>`;
                     selectedFoodsElement.appendChild(itemElement);
                 });
 
-                // Display the total price
                 total = calculateTotalPrice();
                 const totalElement = document.querySelector('.total-price');
                 totalElement.innerHTML =
-                    `<h6 class="text-start m-3">Total: <span class="fw-bold">Rs:- ${calculateTotalPrice()}.00</span></h6>`;
+                    `<h6 class="text-start m-3">Total: <span class="fw-bold">Rs ${total}.00</span></h6>`;
             }
 
             function calculateTotalPrice() {
@@ -304,40 +301,72 @@
                 }
                 updateUI();
             };
-            window.selectItem = function(id, title, price) {
-                const selectedItemIndex = selectedItems.findIndex(item => item.id === id);
+            window.selectItem = function(id, title, basePrice) {
+                console.log(id);
 
-                if (selectedItemIndex === -1) {
-                    selectedItems.push({
-                        id,
-                        title,
-                        price,
-                        quantity: 1
+                fetch(`/get-menu-types/${id}`)
+                    .then(response => response.json())
+                    .then(menuTypes => {
+                        if (menuTypes.length === 0) {
+                            swal("No Menu Types Available", "This menu item has no specific types.",
+                                "info");
+                            return;
+                        }
+
+                        let typeOptions = '';
+                        menuTypes.forEach(type => {
+                            typeOptions +=
+                                `<button class="menu-type-btn" onclick="selectMenuType(${id}, '${title}', '${type.type_name}', ${type.type_price})">${type.type_name} - Rs ${type.type_price}.00</button><br>`;
+                        });
+
+                        Swal.fire({
+                            title: 'Select a Menu Type',
+                            html: typeOptions,
+                            showCloseButton: true,
+                            showConfirmButton: false
+                        });
+                    })
+                    .catch(error => {
+                        console.log("Error loading menu types:", error);
+                        swal("Error", "Unable to load menu types.", "error");
                     });
-                } else {
-                    selectedItems[selectedItemIndex].quantity++;
-                }
-
-                updateUI();
-
-                swal({
-                    title: "Item Added",
-                    text: "Item added to the cart successfully",
-                    icon: "success",
-                    button: "OK",
-                });
             };
         });
 
+        window.selectMenuType = function(id, title, typeName, typePrice) {
+            const selectedItemIndex = selectedItems.findIndex(item => item.id === id && item.type === typeName);
+
+            if (selectedItemIndex === -1) {
+                selectedItems.push({
+                    id,
+                    title,
+                    type: typeName,
+                    price: typePrice,
+                    quantity: 1
+                });
+            } else {
+                selectedItems[selectedItemIndex].quantity++;
+            }
+
+            updateUI();
+
+            Swal.fire({
+                title: "Item Added",
+                text: `Added ${title} (${typeName}) to the cart`,
+                icon: "success",
+                button: "OK"
+            });
+        };
+
         const makeOrder = () => {
             let data = {
-                'total': total,
-                'hotelId': '{{ $hotel->id }}',
-                'mobile': $('#mobile').val(),
-                'tableId': '{{ $table->table_id }}',
-                'email': $('#email').val(),
-                'name': $('#name').val(),
-                'selectedItems': selectedItems
+                total: total,
+                hotelId: '{{ $hotel->id }}',
+                mobile: $('#mobile').val(),
+                tableId: '{{ $table->table_id }}',
+                email: $('#email').val(),
+                name: $('#name').val(),
+                selectedItems: selectedItems
             };
 
             $.ajax({
@@ -349,14 +378,14 @@
                 },
                 success: function(response) {
                     console.log(response);
-
                     window.location.href = '/order/' + response.orderID;
                 },
                 error: function(error) {
                     console.log(error);
+                    swal("Error", "Unable to place the order.", "error");
                 }
             });
-        }
+        };
     </script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
