@@ -172,7 +172,8 @@
                                 <td class="text-center" scope="row">{{ $menu->menu_name }}</th>
                                 <td class="text-center" scope="row">{{ $menu->menu_price }}</th>
                                 <td class="text-center" scope="row">{{ $menu->created_at }}</th>
-                                <td class="text-center"><button class="btn btn-primary rounded-0">VIEW</button></td>
+                                <td class="text-center"><button class="btn btn-primary rounded-0"
+                                        onclick="viewMenu('{{ $menu->id }}')">VIEW</button></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -180,5 +181,91 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function viewMenu(id) {
+            fetch(`/get-menu-types/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "No Menu Types Found",
+                            text: "There are no menu types available for this menu."
+                        });
+                    } else {
+                        let menuDetails = "<ul>";
+                        data.forEach(menuType => {
+                            menuDetails += `
+                        <li><strong>Type Name:</strong> ${menuType.type_name}</li>
+                        <li><strong>Type Price:</strong> $${menuType.type_price}</li>
+                        <button onclick="deleteMenuType(${menuType.id})" class="delete-btn" style="margin-top: 10px;">Delete</button>
+                        <hr>
+                    `;
+                        });
+                        menuDetails += "</ul>";
+
+                        Swal.fire({
+                            title: "Menu Types",
+                            html: menuDetails,
+                            icon: "info",
+                            confirmButtonText: "Close"
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                        footer: '<a href="#">Why do I have this issue?</a>'
+                    });
+                });
+        }
+
+        function deleteMenuType(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/delete-menu-type/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire(
+                                    "Deleted!",
+                                    "The menu type has been deleted.",
+                                    "success"
+                                );
+                            } else {
+                                Swal.fire(
+                                    "Error!",
+                                    data.error || "The menu type could not be deleted.",
+                                    "error"
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire(
+                                "Error!",
+                                "An error occurred while deleting the menu type.",
+                                "error"
+                            );
+                        });
+                }
+            });
+        }
+    </script>
 
 @endsection

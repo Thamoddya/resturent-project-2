@@ -19,6 +19,24 @@ class MenuController extends Controller
         //
     }
 
+    public function getMenuTypes($id)
+    {
+        $menuTypes = MenuType::where('menu_id', $id)->get();
+        return response()->json($menuTypes);
+    }
+
+    public function deleteMenuType($id)
+    {
+        $menuType = MenuType::find($id);
+
+        if ($menuType) {
+            $menuType->delete();
+            return response()->json(['success' => 'Menu Type deleted successfully']);
+        } else {
+            return response()->json(['error' => 'Menu Type not found'], 404);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */

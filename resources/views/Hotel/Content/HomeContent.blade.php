@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hotel Admin - Home</title>
     @include('Components.HeaderImports')
-    
+
 </head>
 
 <body class="MainBG ">
@@ -17,6 +17,8 @@
 
 
     @include('Components.FooterImports')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 
 </html>
