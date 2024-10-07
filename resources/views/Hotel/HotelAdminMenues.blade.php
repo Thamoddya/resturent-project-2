@@ -19,12 +19,23 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-3 d-flex justify-content-end align-items-end">
-                <a data-bs-toggle="collapse" href="#collapseExample" role="button">
-                    <button class="btn btn-primary rounded rounded-0">
-                        <i class="fa fa-plus-circle text-white"></i> Add Menu
-                    </button>
-                </a>
+            <div class="col-12 ">
+                <div class="row">
+                    <div class="col-12 mt-3 d-flex justify-content-end align-items-end">
+                        <a data-bs-toggle="collapse" href="#collapseExample" role="button">
+                            <button class="btn btn-primary rounded rounded-0">
+                                <i class="fa fa-plus-circle text-white"></i> Add Menu
+                            </button>
+                        </a>
+                    </div>
+                    <div class="col-12 mt-3 d-flex justify-content-end align-items-end">
+                        <a data-bs-toggle="collapse" href="#addMenuType" role="button">
+                            <button class="btn btn-primary rounded rounded-0">
+                                <i class="fa fa-plus-circle text-white"></i> Add Menu Type
+                            </button>
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div class="col-12">
@@ -42,6 +53,7 @@
 
             </div>
             <div class="col-12 mt-3">
+                {{-- Add Menu --}}
                 <div class="collapse" id="collapseExample">
                     <div class="card card-body">
                         <div class="row">
@@ -88,6 +100,46 @@
                                     </ul>
 
                                     <button type="submit" class="btn btn-primary rounded-0 px-3">Add Menu</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Add Menu Type --}}
+                <div class="collapse" id="addMenuType">
+                    <div class="card card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Add Menu Type</h5>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <form action="{{ route('Create.Type') }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+
+                                    <div class="input-group flex-nowrap mb-3">
+                                        <span class="input-group-text" id="addon-wrapping">Menu Type Name</span>
+                                        <input required type="text" name="type_name" class="form-control"
+                                            placeholder="menu Type Name" aria-label="Name"
+                                            aria-describedby="addon-wrapping">
+                                    </div>
+                                    <div class="input-group flex-nowrap mb-3">
+                                        <span class="input-group-text" id="addon-wrapping">Menu Price</span>
+                                        <input required type="number" name="type_price" class="form-control"
+                                            placeholder="menu Type Name" aria-label="Price"
+                                            aria-describedby="addon-wrapping">
+                                    </div>
+                                    {{-- Menu Select --}}
+                                    <div class="input-group flex-nowrap mb-3">
+                                        <span class="input-group-text" id="addon-wrapping">Menu</span>
+                                        <select required name="menu_id" class="form-select"
+                                            aria-label="Default select example">
+                                            @foreach ($menus as $menu)
+                                                <option value="{{ $menu->id }}">{{ $menu->menu_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary rounded-0 px-3">Add Type</button>
                                 </form>
                             </div>
                         </div>

@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
         Route::group(['middleware' => ['can:manage_hotel_staff']], function () {
             Route::post('/create-user-hotel', [UserController::class, 'storeEmployee'])->name('Create.Employee');
             Route::post('/create-menu', [MenuController::class, 'store'])->name('Create.Menu');
+            Route::post('/create-type', [MenuController::class, 'storeMenuType'])->name('Create.Type');
         });
 
         Route::group(['middleware' => ['can:edit_hotels']], function () {

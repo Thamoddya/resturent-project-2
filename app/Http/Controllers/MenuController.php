@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Models\Menu;
+use App\Models\MenuType;
+use Illuminate\Http\Request;
+
 
 class MenuController extends Controller
 {
@@ -48,6 +51,27 @@ class MenuController extends Controller
 
         return redirect()->route("HotelAdmin.Menus")->with("success", "Menu Added");
     }
+    public function storeMenuType(Request $request)
+    {
+        $user = auth()->user();
+        $hotelID = $user->hotel_id;
+
+        $validatedData = $request->validate([
+            'type_name' => 'required|string',
+            'menu_id' => 'required|integer',
+            'type_price' => 'required|integer',
+        ]);
+
+        $menuType = MenuType::create([
+            "type_name" => $validatedData['type_name'],
+            "hotel_id" => $hotelID,
+            "menu_id" => $validatedData['menu_id'],
+            "type_price" => $validatedData['type_price'],
+        ]);
+
+        return redirect()->back()->with("success", "Menu Type Added");
+    }
+
 
     /**
      * Display the specified resource.
