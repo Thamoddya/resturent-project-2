@@ -19,6 +19,22 @@ class MenuController extends Controller
         //
     }
 
+    public function setMenuAvailable($id)
+    {
+        $menu = Menu::find($id);
+
+        if ($menu) {
+            if ($menu->menu_available == 1) {
+                $menu->menu_available = 0;
+            } else {
+                $menu->menu_available = 1;
+            }
+            $menu->save();
+            return redirect()->back()->with("success", "Menu availability updated");
+        } else {
+            return response()->json(['error' => 'Menu not found'], 404);
+        }
+    }
     public function getMenuTypes($id)
     {
         $menuTypes = MenuType::where('menu_id', $id)->get();

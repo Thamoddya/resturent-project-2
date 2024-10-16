@@ -154,7 +154,7 @@
                             <th scope="col" class="text-center">#</th>
                             <th scope="col" class="text-center">Image</th>
                             <th scope="col" class="text-center">Menu Name</th>
-                            <th scope="col" class="text-center">Price</th>
+                            {{-- <th scope="col" class="text-center">Price</th> --}}
                             <th scope="col" class="text-center">Added Date</th>
                             <th scope="col" class="text-center">More</th>
                         </tr>
@@ -170,10 +170,19 @@
                                     <img src="{{ asset($menu->menu_image_path) }}" style="width: 40px;height: 40px;">
                                     </th>
                                 <td class="text-center" scope="row">{{ $menu->menu_name }}</th>
-                                <td class="text-center" scope="row">{{ $menu->menu_price }}</th>
+                                    {{-- <td class="text-center" scope="row">{{ $menu->menu_price }}</th> --}}
                                 <td class="text-center" scope="row">{{ $menu->created_at }}</th>
-                                <td class="text-center"><button class="btn btn-primary rounded-0"
-                                        onclick="viewMenu('{{ $menu->id }}')">VIEW</button></td>
+                                <td class="text-center">
+                                    <button
+                                        class="btn btn-primary rounded-0"onclick="viewMenu('{{ $menu->id }}')">VIEW</button>
+                                    @if ($menu->menu_available == 1)
+                                         <a href="{{ route('menuAvailable', $menu->id) }}"
+                                            class="btn btn-danger rounded-0">Unavailable</a>
+                                    @else
+                                        <a href="{{ route('menuAvailable', $menu->id) }}"
+                                            class="btn btn-success rounded-0">Available</a>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -198,7 +207,7 @@
                         data.forEach(menuType => {
                             menuDetails += `
                         <li><strong>Type Name:</strong> ${menuType.type_name}</li>
-                        <li><strong>Type Price:</strong> $${menuType.type_price}</li>
+                        <li><strong>Type Price:</strong> ${menuType.type_price}</li>
                         <button onclick="deleteMenuType(${menuType.id})" class="delete-btn" style="margin-top: 10px;">Delete</button>
                         <hr>
                     `;

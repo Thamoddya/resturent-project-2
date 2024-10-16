@@ -104,3 +104,4 @@ Route::get('/', [PublicRouteController::class, 'login'])->name('login');
 Route::get('/pay-to-casher/{order_id}', [TransactionController::class, 'payToCasher'])->name('payToCasher');
 Route::get('/get-menu-types/{id}', [MenuController::class, 'getMenuTypes'])->name('getMenuTypes');
 Route::delete('/delete-menu-type/{id}', [MenuController::class, 'deleteMenuType'])->name('deleteMenuType');
+
