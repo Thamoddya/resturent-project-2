@@ -102,13 +102,11 @@
     </style>
 </head>
 
-<body style="overflow-x: hidden">
 
+<body style="overflow-x: hidden">
     <nav class="navbar" style="background: #333333">
         <div class="container-fluid">
             <a class="navbar-brand text-white" href="#">
-                {{-- <img src="{{ $dataUri }}" alt="Logo" width="100" height="100"
-                    class="d-inline-block align-text-center text-white"> --}}
                 FOOD ORDERING SYSTEM - {{ $hotel->hotel_name }}
             </a>
         </div>
@@ -118,7 +116,6 @@
         <div class="alert alert-danger m-3" role="alert">
             This table is already reserved. Please select another table.
         </div>
-
         <script type="text/javascript">
             setTimeout(function() {
                 window.location.reload();
@@ -127,9 +124,7 @@
         {{ exit() }}
     @endif
 
-
     <div class="container-fluid">
-
         <div class="row">
             <div class="col-12 mt-3 category-buttons d-flex flex-row">
                 @foreach ($categories as $category)
@@ -145,7 +140,7 @@
         <div class="row">
             @foreach ($categories as $category)
                 <div class="collapse" id="{{ $category->name }}" style="background-color: transparent">
-                    <div class="card card-body " style="background-color: transparent">
+                    <div class="card card-body" style="background-color: transparent">
                         <div class="row">
                             @foreach ($menusByCategory[$category->name] as $food)
                                 <div class="col-6 col-sm-6 col-md-4 col-lg-3 p-2">
@@ -154,15 +149,12 @@
                                             class="img-fluid card-img-top rounded-start p-2"
                                             style="height: 150px;width: 250px" alt="...">
                                         <div class="card-body d-flex flex-column">
-                                            <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}
-                                            </h5>
+                                            <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}</h5>
                                             <p class="card-text flex-grow-1">
-                                                {{ Str::limit($food->menu_description, 50) }}.</p>
-                                            <p class="card-text">Rs:- {{ $food->menu_price }}.00</p>
-                                            <button class="btn btn-primary mt-auto rounded-0"
-                                                onclick="selectItem({{ $food->id }}, '{{ $food->menu_name }}', {{ $food->menu_price }})">
-                                                SELECT
-                                            </button>
+                                                {{ Str::limit($food->menu_description, 50) }}.
+                                            </p>
+                                            <button class="btn btn-primary rounded-0"
+                                                onclick="viewMenu('{{ $food->id }}')">VIEW</button>
                                         </div>
                                     </div>
                                 </div>
@@ -178,16 +170,13 @@
                 <div class="col-12 bg-secondary">
                     <h3 class="text-center mt-2">Selected Foods</h3>
                 </div>
-                <div class="col-12  mt-2">
-                    <div class="row selected-foods">
-                    </div>
+                <div class="col-12 mt-2">
+                    <div class="row selected-foods"></div>
                 </div>
-                <div class="col-12 ">
+                <div class="col-12">
                     <div class="row d-flex">
-                        <div class="col-8 total-price bg-secondary bg-opacity-50">
-                        </div>
-                        <button
-                            class=" col-4 btn btn-success rounded-0 d-flex justify-content-center align-items-center"
+                        <div class="col-8 total-price bg-secondary bg-opacity-50"></div>
+                        <button class="col-4 btn btn-success rounded-0 d-flex justify-content-center align-items-center"
                             data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                             CheckOut
                         </button>
@@ -202,35 +191,26 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput1"
-                                                        class="form-label">Name</label>
-                                                    <input type="text" id="name" class="form-control"
-                                                        placeholder="Jemmy Thomas">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput1"
-                                                        class="form-label">Email</label>
-                                                    <input type="text" id="email" class="form-control"
-                                                        placeholder="name@example.com">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput1" class="form-label">Mobile
-                                                        (Optional)</label>
-                                                    <input type="text" id="mobile" class="form-control"
-                                                        placeholder="072 000 0000">
-                                                </div>
-                                            </div>
+                                        <!-- Form fields for user details name,mobile,email -->
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="name" required>
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="mobile" class="form-label">Mobile</label>
+                                            <input type="text" class="form-control" id="mobile" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" required>
+                                        </div>
+
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close
-                                        </button>
-                                        <button type="button" class="btn btn-primary" onclick="makeOrder();">Confirm
-                                        </button>
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="makeOrder();">Confirm</button>
                                     </div>
                                 </div>
                             </div>
@@ -240,108 +220,54 @@
             </div>
         </div>
     </div>
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        // Get all the category buttons
-        const categoryButtons = document.querySelectorAll('.category-btn');
-
-        categoryButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Get the currently active collapse (if any)
-                const activeCollapses = document.querySelectorAll('.collapse.show');
-
-                // Collapse all active collapses except the one related to the clicked button
-                activeCollapses.forEach(collapse => {
-                    if (collapse.id !== button.getAttribute('data-bs-target').substring(1)) {
-                        new bootstrap.Collapse(collapse, {
-                            toggle: false
-                        }).hide();
-                    }
-                });
-            });
-        });
-
-
         let selectedItems = [];
         let total;
 
-        document.addEventListener('DOMContentLoaded', function() {
+        function updateUI() {
+            const selectedFoodsElement = document.querySelector('.selected-foods');
+            selectedFoodsElement.innerHTML = '';
 
-            function updateUI() {
-                const selectedFoodsElement = document.querySelector('.selected-foods');
-                selectedFoodsElement.innerHTML = '';
+            selectedItems.forEach((item) => {
+                total = selectedItems.reduce((acc, item) => acc + (item.type * item.quantity), 0);
+                const itemElement = document.createElement('div');
+                itemElement.classList = "col-12 p-2 mb-2 rounded rounded-2 bg-opacity-25 bg-secondary";
+                itemElement.innerHTML =
+                    `<div class="row">
+                        <div class="col-12 d-flex align-items-center justify-content-center">
+                            <h6 class="m-3">${item.title} (${item.type}) - Rs ${item.type * item.quantity} | Quantity: ${item.quantity}</h6>
+                            <button class="btn btn-danger btn-sm m-3" onclick="removeItem(${item.id})">Remove</button>
+                        </div>
+                    </div>`;
+                selectedFoodsElement.appendChild(itemElement);
+            });
 
-                selectedItems.forEach(item => {
-                    const itemElement = document.createElement('div');
-                    itemElement.classList = "col-12 p-2 mb-2 rounded rounded-2 bg-opacity-25 bg-secondary";
-                    itemElement.innerHTML = `
-            <div class="row">
-                <div class="col-12 d-flex align-items-center justify-content-center">
-                    <h6 class="m-3">${item.title} (${item.type}) | Quantity: ${item.quantity}</h6>
-                    <button class="btn btn-danger btn-sm m-3" onclick="removeItem(${item.id})">Remove</button>
-                </div>
-            </div>`;
-                    selectedFoodsElement.appendChild(itemElement);
-                });
+            console.log(`Total price calculated: Rs ${total}`);
 
-                total = calculateTotalPrice();
-                const totalElement = document.querySelector('.total-price');
-                totalElement.innerHTML =
-                    `<h6 class="text-start m-3">Total: <span class="fw-bold">Rs ${total}.00</span></h6>`;
+            const totalElement = document.querySelector('.total-price');
+            totalElement.innerHTML = `<h6 class="text-start m-3">Total: <span class="fw-bold">Rs ${total}.00</span></h6>`;
+        }
+
+
+        window.removeItem = function(id) {
+            const selectedItemIndex = selectedItems.findIndex(item => item.id === id);
+            if (selectedItemIndex !== -1) {
+                selectedItems.splice(selectedItemIndex, 1);
             }
-
-            function calculateTotalPrice() {
-                return selectedItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-            }
-
-            window.removeItem = function(id) {
-                const selectedItemIndex = selectedItems.findIndex(item => item.id === id);
-                if (selectedItemIndex !== -1) {
-                    selectedItems.splice(selectedItemIndex, 1);
-                }
-                updateUI();
-            };
-            window.selectItem = function(id, title, basePrice) {
-                console.log(id);
-
-                fetch(`/get-menu-types/${id}`)
-                    .then(response => response.json())
-                    .then(menuTypes => {
-                        if (menuTypes.length === 0) {
-                            swal("No Menu Types Available", "This menu item has no specific types.",
-                                "info");
-                            return;
-                        }
-
-                        let typeOptions = '';
-                        menuTypes.forEach(type => {
-                            typeOptions +=
-                                `<button class="menu-type-btn" onclick="selectMenuType(${id}, '${title}', '${type.type_name}', ${type.type_price})">${type.type_name} - Rs ${type.type_price}.00</button><br>`;
-                        });
-
-                        Swal.fire({
-                            title: 'Select a Menu Type',
-                            html: typeOptions,
-                            showCloseButton: true,
-                            showConfirmButton: false
-                        });
-                    })
-                    .catch(error => {
-                        console.log("Error loading menu types:", error);
-                        swal("Error", "Unable to load menu types.", "error");
-                    });
-            };
-        });
+            updateUI();
+        };
 
         window.selectMenuType = function(id, title, typeName, typePrice) {
             const selectedItemIndex = selectedItems.findIndex(item => item.id === id && item.type === typeName);
 
             if (selectedItemIndex === -1) {
                 selectedItems.push({
-                    id,
-                    title,
+                    id: id,
+                    title: title,
                     type: typeName,
-                    price: typePrice,
+                    price: parseFloat(typePrice), // Use typePrice as the price
                     quantity: 1
                 });
             } else {
@@ -350,13 +276,50 @@
 
             updateUI();
 
-            Swal.fire({
+            swal({
                 title: "Item Added",
                 text: `Added ${title} (${typeName}) to the cart`,
                 icon: "success",
                 button: "OK"
             });
         };
+
+        function viewMenu(id) {
+            fetch(`/get-menu-types/${id}`)
+                .then(response => response.json())
+                .then(menuTypes => {
+                    console.log(menuTypes);
+                    if (menuTypes.length === 0) {
+                        swal("No Menu Types Available", "This menu item has no specific types.", "info");
+                        return;
+                    }
+
+                    let typeOptions = '';
+                    menuTypes.forEach(type => {
+                        typeOptions +=
+                            `<button class="btn btn-primary mt-2" onclick="selectMenuType(${id}, '${type.type_name}', ${type.type_price})">${type.type_name} - Rs ${type.type_price}.00</button><br>`;
+                    });
+
+                    swal({
+                        title: 'Select a Menu Type',
+                        content: {
+                            element: 'div',
+                            attributes: {
+                                innerHTML: typeOptions
+                            }
+                        },
+                        button: {
+                            text: "Close",
+                            visible: true,
+                            closeModal: true
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error("Error loading menu types:", error);
+                    swal("Error", "Unable to load menu types.", "error");
+                });
+        }
 
         const makeOrder = () => {
             let data = {
@@ -368,6 +331,8 @@
                 name: $('#name').val(),
                 selectedItems: selectedItems
             };
+            console.log(data);
+
 
             $.ajax({
                 url: "/create-order-new",

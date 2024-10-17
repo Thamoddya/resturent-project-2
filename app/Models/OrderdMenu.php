@@ -13,7 +13,8 @@ class OrderdMenu extends Model
         "hotel_id",
         "order_id",
         "qty",
-        "menu_id"
+        "menu_id",
+        "menu_name"
     ];
 
     public function menu()

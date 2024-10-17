@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('hotel_id')->nullable()->constrained('hotels');
             $table->foreignId('order_id')->nullable()->constrained('orders');
             $table->foreignId('menu_id')->constrained('menus');
+            $table->string('menu_name');
             $table->integer('qty');
             $table->timestamps();
         });

@@ -20,7 +20,8 @@ class Order extends Model
         "employee_id",
         "isCompleted",
         "completed_by",
-        "status"
+        "status",
+        "total_price"
     ];
 
     public function user()

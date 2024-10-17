@@ -127,6 +127,12 @@ class OrderController extends Controller
         $data = $request->all();
         $orderID = hexdec(hash('crc32b', Str::uuid()));
 
+        if(empty($data['tableId'])){
+            return response()->json([
+                "Error" => "Select Table",
+                "request" => $request->selectedItems
+            ]);
+        }
         if ($data['tableId'] == null) {
             return response()->json([
                 "Error" => "Select Table"
@@ -146,12 +152,13 @@ class OrderController extends Controller
             "customer_name" => $data['name'],
             "customer_mobile" => $data['mobile'],
             "customer_email" => $data['email'],
+            "total_price" => $data['total'],
         ]);
         if (!$order) {
             \Log::error('Error creating order');
             return response()->json([
                 "Error" => "Failed to create order"
-            ]);
+            ], 500);
         }
         for ($i = 0; $i < count($data['selectedItems']); $i++) {
             $orderedMenu = OrderdMenu::create([
@@ -159,9 +166,9 @@ class OrderController extends Controller
                 "hotel_id" => $data['hotelId'],
                 "menu_id" => $data['selectedItems'][$i]['id'],
                 "qty" => $data['selectedItems'][$i]['quantity'],
+                "menu_name" => $data['selectedItems'][$i]['title']
             ]);
         }
-
 
         $table->update([
             "isReserved" => 1
