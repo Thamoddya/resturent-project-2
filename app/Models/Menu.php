@@ -17,4 +17,19 @@ class Menu extends Model
         "menu_description",
         "category_id"
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class);
+    }
+
+    public function orderdMenus()
+    {
+        return $this->hasMany(OrderdMenu::class);
+    }
 }

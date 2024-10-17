@@ -47,7 +47,7 @@
                         <hr>
                     </div>
                     <div class="col-12">
-                        <h6>TOTAL :- <span class="text-success">Rs. {{ $orderData->getOrderTotal() }}</span></h6>
+                        <h6>TOTAL :- <span class="text-success">Rs. {{ $orderData->total_price }}</span></h6>
                         <h6>PAYMENT STATUS :-
                             @if ($orderData->isPaid == 1)
                                 <span class="text-success">PAID</span>
@@ -159,10 +159,7 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Quantity</th>
-                                        <th scope="col"></th>
-                                        <th scope="col">Price (RS)</th>
-                                        <th></th>
-                                        <th>Total</th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
@@ -171,12 +168,8 @@
                                         <tr class="align-middle">
                                             <th><img style="width: 60px " src="{{ $foods->menu->menu_image_path }}">
                                             </th>
-                                            <td>{{ $foods->menu->menu_name }}</td>
+                                            <td>{{ $foods->menu->menu_name }} - ({{ $foods->menu_name }})</td>
                                             <td>{{ $foods->qty }} </td>
-                                            <td>x</td>
-                                            <td>{{ $foods->menu->menu_price }}.00</td>
-                                            <td> = </td>
-                                            <td>Rs.{{ $foods->menu->menu_price * $foods->qty }}.00</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

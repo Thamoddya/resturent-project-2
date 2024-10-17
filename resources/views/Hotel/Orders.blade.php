@@ -92,7 +92,7 @@
                                         <tr>
                                             <th scope="row">{{ $order->order_id }}</th>
                                             <td>{{ $order->created_at->format('H:i:s') }}</td>
-                                            <td>{{ $order->table->table_name}}</td>
+                                            <td>{{ $order->table->table_name }}</td>
                                             <td>
                                                 @if ($order->isPaid == 1)
                                                     <span class="badge bg-success">Paid</span>
@@ -108,14 +108,16 @@
                                                 </ul>
                                             </td>
                                             <td>
-                                                {{-- @dd($order->getOrderTotal()) --}}
-                                                Rs.{{ $order->getOrderTotal() }}
+                                                {{-- @dd($order->total_price) --}}
+                                                Rs.{{ $order->total_price }}
                                             </td>
                                             <td>
                                                 <ul>
                                                     @foreach ($order->orderdMenus as $orderedMenu)
                                                         <li>{{ $orderedMenu->qty }} x
-                                                            {{ $orderedMenu->menu->menu_name }}</li>
+                                                            {{ $orderedMenu->menu->menu_name }} -
+                                                            ({{ $orderedMenu->menu_name }})
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             </td>
@@ -178,7 +180,7 @@
                                         <tr>
                                             <th scope="row">{{ $order->order_id }}</th>
                                             <td>{{ $order->created_at->format('H:i:s') }}</td>
-                                            <td>{{ $order->table->table_name}}</td>
+                                            <td>{{ $order->table->table_name }}</td>
                                             <td>
                                                 @if ($order->isPaid == 1)
                                                     <span class="badge bg-success">Paid</span>
@@ -194,14 +196,14 @@
                                                 </ul>
                                             </td>
                                             <td>
-                                                {{-- @dd($order->getOrderTotal()) --}}
-                                                Rs.{{ $order->getOrderTotal() }}
+                                                Rs.{{ $order->total_price }}
                                             </td>
                                             <td>
                                                 <ul>
                                                     @foreach ($order->orderdMenus as $orderedMenu)
                                                         <li>{{ $orderedMenu->qty }} x
-                                                            {{ $orderedMenu->menu->menu_name }}</li>
+                                                            {{ $orderedMenu->menu->menu_name }} -
+                                                            ({{ $orderedMenu->menu_name }})</li>
                                                     @endforeach
                                                 </ul>
                                             </td>
@@ -281,7 +283,7 @@
                                         <tr>
                                             <th scope="row">{{ $order->order_id }}</th>
                                             <td>{{ $order->created_at->format('H:i:s') }}</td>
-                                            <td>{{ $order->table->table_name}}</td>
+                                            <td>{{ $order->table->table_name }}</td>
                                             <td>
                                                 @if ($order->isPaid == 1)
                                                     <span class="badge bg-success">Paid</span>
@@ -297,8 +299,8 @@
                                                 </ul>
                                             </td>
                                             <td>
-                                                {{-- @dd($order->getOrderTotal()) --}}
-                                                Rs.{{ $order->getOrderTotal() }}
+                                                {{-- @dd($order->total_price) --}}
+                                                Rs.{{ $order->total_price }}
                                             </td>
                                             <td>
                                                 <ul>

@@ -331,8 +331,6 @@
                 name: $('#name').val(),
                 selectedItems: selectedItems
             };
-            console.log(data);
-
 
             $.ajax({
                 url: "/create-order-new",
