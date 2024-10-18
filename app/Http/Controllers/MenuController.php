@@ -14,9 +14,13 @@ class MenuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function getMenu()
     {
-        //
+        $user = auth()->user();
+        $hotelID = $user->hotel_id;
+
+        $menus = Menu::where('hotel_id', $hotelID)->get();
+        return response()->json($menus);
     }
 
     public function setMenuAvailable($id)
@@ -104,6 +108,46 @@ class MenuController extends Controller
         ]);
 
         return redirect()->back()->with("success", "Menu Type Added");
+    }
+
+    public function deleteMenu($id)
+    {
+        $menu = Menu::find($id);
+        //Delete Menu Types and Menu
+        if ($menu) {
+            $menuTypes = MenuType::where('menu_id', $id)->get();
+            foreach ($menuTypes as $menuType) {
+                $menuType->delete();
+            }
+            $menu->delete();
+            return redirect()->back()->with("success", "Menu Deleted");
+        } else {
+            return response()->json(['error' => 'Menu not found'], 404);
+        }
+
+    }
+
+    public function updateMenu(Request $request)
+    {
+        $validatedData = $request->validate([
+            'menu_id' => 'required|integer',
+            'menu_name' => 'required|string',
+            'category_id' => 'required|integer',
+            'menu_description' => 'required|string',
+        ]);
+
+        $menu = Menu::find($validatedData['menu_id']);
+
+        if ($menu) {
+            $menu->update([
+                "menu_name" => $validatedData['menu_name'],
+                "category_id" => $validatedData['category_id'],
+                "menu_description" => $validatedData['menu_description'],
+            ]);
+            return redirect()->back()->with("success", "Menu Updated");
+        } else {
+            return response()->json(['error' => 'Menu not found'], 404);
+        }
     }
 
 

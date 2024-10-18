@@ -228,7 +228,7 @@ class OrderController extends Controller
             Transaction::create([
                 "hotel_id" => $order->hotel_id,
                 "order_id" => $order->order_id,
-                "total_price" => $order->getOrderTotal(),
+                "total_price" => $order->total_price,
                 "invoice_id" => $invoiceID,
             ]);
 

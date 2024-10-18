@@ -176,12 +176,16 @@
                                     <button
                                         class="btn btn-primary rounded-0"onclick="viewMenu('{{ $menu->id }}')">VIEW</button>
                                     @if ($menu->menu_available == 1)
-                                         <a href="{{ route('menuAvailable', $menu->id) }}"
+                                        <a href="{{ route('menuAvailable', $menu->id) }}"
                                             class="btn btn-danger rounded-0">Unavailable</a>
                                     @else
                                         <a href="{{ route('menuAvailable', $menu->id) }}"
                                             class="btn btn-success rounded-0">Available</a>
                                     @endif
+                                    <button class="btn btn-warning rounded-0"
+                                        onclick="showUpdateMenuModal('{{ $menu->id }}')">UPDATE</button>
+                                    <a href="{{ route('delete.menu', $menu->id) }}"
+                                        class="btn btn-danger rounded-0">DELETE</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -189,9 +193,78 @@
                 </table>
             </div>
         </div>
+
+        {{-- Update Menu Modal --}}
+        <div id="updateMenuModal" class="modal">
+            <div class="modal-content">
+                <span class="close"
+                    onclick="document.getElementById('updateMenuModal').style.display = 'none'">&times;</span>
+                <form action="{{ route('update.menu') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="menu_id" id="menu_id">
+                    <div class="input-group flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">Menu Name</span>
+                        <input type="text" name="menu_name" id="menu_name" class="form-control"
+                            placeholder="menu Name" aria-label="Username" aria-describedby="addon-wrapping">
+                    </div>
+                    <div class="input-group flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">Menu Image</span>
+                        <input type="file" name="menu_image" class="form-control" placeholder="Menu Image"
+                            aria-label="Username" aria-describedby="addon-wrapping">
+                    </div>
+                    <div class="input-group flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">Menu Category</span>
+                        <select name="category_id" id="menu_category" class="form-select"
+                            aria-label="Default select example">
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-group flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">Menu Description</span>
+                        <input type="text" name="menu_description" id="menu_description" class="form-control"
+                            placeholder="Menu Description" aria-label="Username" aria-describedby="addon-wrapping">
+                    </div>
+                    <input type="hidden" name="menu_image_path" id="menu_image_path">
+                    <button type="submit" class="btn btn-primary rounded-0 px-3">Update Menu</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script>
+        function showUpdateMenuModal(id) {
+            fetch(`/get-menu/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        document.getElementById('menu_id').value = data.id;
+                        document.getElementById('menu_name').value = data.menu_name;
+                        document.getElementById('menu_price').value = data.menu_price;
+                        document.getElementById('menu_description').value = data.menu_description;
+                        document.getElementById('menu_image').src = data.menu_image_path;
+                        document.getElementById('menu_image_path').value = data.menu_image_path;
+                        document.getElementById('menu_category').value = data.category_id;
+                        document.getElementById('updateMenuModal').style.display = 'block';
+                    } else {
+                        Swal.fire({
+                            icon: "info",
+                            title: "No Menu Found",
+                            text: "The menu you are trying to update does not exist."
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                        footer: '<a href="#">Why do I have this issue?</a>'
+                    });
+                });
+        }
+
         function viewMenu(id) {
             fetch(`/get-menu-types/${id}`)
                 .then(response => response.json())
