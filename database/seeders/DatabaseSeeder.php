@@ -89,11 +89,11 @@ class DatabaseSeeder extends Seeder
 
         $superAdminOne = User::create(
             [
-                'name' => "Thamoddya Rashmitha",
-                'email'=>"thamo@gmail.com",
-                'password'=>Hash::make("1234"),
-                'mobile'=>"0769458554",
-                'nic'=>"200509104610",
+                'name' => "Texta World",
+                'email'=>"texta@hotelaitexta.world",
+                'password'=>Hash::make("Texta1234@"),
+                'mobile'=>"0000000000",
+                'nic'=>"0000000000",
                 'address'=>"Anuradhapura",
             ]
         );
