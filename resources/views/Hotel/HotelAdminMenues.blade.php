@@ -184,8 +184,8 @@
                                     @endif
                                     <button class="btn btn-warning rounded-0"
                                         onclick="showUpdateMenuModal('{{ $menu->id }}')">UPDATE</button>
-                                    <a href="{{ route('delete.menu', $menu->id) }}"
-                                        class="btn btn-danger rounded-0">DELETE</a>
+                                    {{-- <a href="{{ route('delete.menu', $menu->id) }}"
+                                        class="btn btn-danger rounded-0">DELETE</a> --}}
                                 </td>
                             </tr>
                         @endforeach

@@ -138,31 +138,34 @@
         </div>
 
         <div class="row">
-            @foreach ($categories as $category)
-                <div class="collapse" id="{{ $category->name }}" style="background-color: transparent">
-                    <div class="card card-body" style="background-color: transparent">
-                        <div class="row">
-                            @foreach ($menusByCategory[$category->name] as $food)
-                                <div class="col-6 col-sm-6 col-md-4 col-lg-3 p-2">
-                                    <div class="card h-100 justify-content-center align-items-center">
-                                        <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
-                                            class="img-fluid card-img-top rounded-start p-2"
-                                            style="height: 150px;width: 250px" alt="...">
-                                        <div class="card-body d-flex flex-column">
-                                            <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}</h5>
-                                            <p class="card-text flex-grow-1">
-                                                {{ Str::limit($food->menu_description, 50) }}.
-                                            </p>
-                                            <button class="btn btn-primary rounded-0"
-                                                onclick="viewMenu('{{ $food->id }}')">VIEW</button>
+            <div id="categoryCollapseGroup">
+                @foreach ($categories as $category)
+                    <div class="collapse" id="{{ $category->name }}" data-bs-parent="#categoryCollapseGroup"
+                        style="background-color: transparent">
+                        <div class="card card-body" style="background-color: transparent">
+                            <div class="row">
+                                @foreach ($menusByCategory[$category->name] as $food)
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 p-2">
+                                        <div class="card h-100 justify-content-center align-items-center">
+                                            <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
+                                                class="img-fluid card-img-top rounded-start p-2"
+                                                style="height: 150px;width: 250px" alt="...">
+                                            <div class="card-body d-flex flex-column">
+                                                <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}</h5>
+                                                <p class="card-text flex-grow-1">
+                                                    {{ Str::limit($food->menu_description, 50) }}.
+                                                </p>
+                                                <button class="btn btn-primary rounded-0"
+                                                    onclick="viewMenu('{{ $food->id }}')">VIEW</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
 
         <div class="col-12 mt-3">
