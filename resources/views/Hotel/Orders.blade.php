@@ -170,7 +170,7 @@
                                             <th scope="col">Complete Payment</th>
                                         @endcan
                                         <th scope="col">Complete Order</th>
-                                        <th scope="col">Invoice</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -233,13 +233,6 @@
 
                                                 <a href="{{ route('Complete.Order', $order->order_id) }}"
                                                     class="btn btn-danger">Complete Order</a>
-                                            </td>
-                                            <td>
-                                                @empty($order->order_id == null)
-                                                    <a href="{{ route('generateInvoice', $order->order_id) }}">
-                                                        <button class="btn btn-primary rounded-0">Invoice</button>
-                                                    </a>
-                                                @endempty
                                             </td>
                                         </tr>
                                     @endforeach

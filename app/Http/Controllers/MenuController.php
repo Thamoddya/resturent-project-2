@@ -129,25 +129,37 @@ class MenuController extends Controller
 
     public function updateMenu(Request $request)
     {
-        $validatedData = $request->validate([
-            'menu_id' => 'required|integer',
-            'menu_name' => 'required|string',
-            'category_id' => 'required|integer',
-            'menu_description' => 'required|string',
+        $menuId = $request->input('menu_id');
+
+        $request->validate([
+            'menu_name' => 'required|string|max:255',
+            'menu_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $menu = Menu::find($validatedData['menu_id']);
+        $menu = Menu::find($request->menu_id);
 
-        if ($menu) {
-            $menu->update([
-                "menu_name" => $validatedData['menu_name'],
-                "category_id" => $validatedData['category_id'],
-                "menu_description" => $validatedData['menu_description'],
-            ]);
-            return redirect()->back()->with("success", "Menu Updated");
-        } else {
-            return response()->json(['error' => 'Menu not found'], 404);
+        if (!$menu) {
+            return redirect()->back()->with('error', 'Menu not found.');
         }
+
+        $menu->menu_name = $request->menu_name;
+
+        if ($request->has('menu_description')) {
+            $menu->menu_description = $request->menu_description;
+        }
+
+        $menu->category_id = $request->category_id;
+
+        if ($request->hasFile('menu_image')) {
+            $filename = 'menu' . time() . '_' . uniqid() . '.' . $request->file('menu_image')->getClientOriginalExtension();
+            $imagePath = $request->file('menu_image')->move(public_path('images/menus'), $filename);
+
+            $menu->menu_image_path = '/images/menus/' . $filename;
+        }
+
+        $menu->save();
+
+        return redirect()->route('HotelAdmin.Menus')->with('success', 'Menu updated successfully.');
     }
 
 

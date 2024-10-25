@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>A simple, clean, and responsive HTML invoice template</title>
-	
+
     <style>
         .invoice-box {
             max-width: 800px;
@@ -159,24 +159,23 @@
             <tr class="details">
                 <td>Cashier</td>
 
-                <td>Rs.{{ $order_total }}</td>
+                <td>Rs.{{ $order->total_price }}</td>
             </tr>
 
             <tr class="heading">
                 <td>Item</td>
 
-                <td>Price</td>
+
             </tr>
             @foreach ($order->orderdMenus as $orderedMenu)
                 <tr class="item">
                     <td>{{ $orderedMenu->qty }} x {{ $orderedMenu->menu->menu_name }}</td>
-                    <td>Rs.{{ $orderedMenu->menu->menu_price * $orderedMenu->qty }}</td>
                 </tr>
             @endforeach
             <tr class="total">
                 <td></td>
 
-                <td>Rs.{{ $order_total }}</td>
+                <td>Rs.{{ $order->total_price }}</td>
             </tr>
         </table>
     </div>

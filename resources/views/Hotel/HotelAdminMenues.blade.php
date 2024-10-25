@@ -202,31 +202,21 @@
                 <form action="{{ route('update.menu') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="menu_id" id="menu_id">
+
+                    <!-- Menu Name -->
                     <div class="input-group flex-nowrap mb-3">
                         <span class="input-group-text" id="addon-wrapping">Menu Name</span>
                         <input type="text" name="menu_name" id="menu_name" class="form-control"
-                            placeholder="menu Name" aria-label="Username" aria-describedby="addon-wrapping">
+                            placeholder="Menu Name" aria-label="Menu Name" aria-describedby="addon-wrapping">
                     </div>
+
+                    <!-- Menu Image -->
                     <div class="input-group flex-nowrap mb-3">
                         <span class="input-group-text" id="addon-wrapping">Menu Image</span>
                         <input type="file" name="menu_image" class="form-control" placeholder="Menu Image"
-                            aria-label="Username" aria-describedby="addon-wrapping">
+                            aria-label="Menu Image" aria-describedby="addon-wrapping">
                     </div>
-                    <div class="input-group flex-nowrap mb-3">
-                        <span class="input-group-text" id="addon-wrapping">Menu Category</span>
-                        <select name="category_id" id="menu_category" class="form-select"
-                            aria-label="Default select example">
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="input-group flex-nowrap mb-3">
-                        <span class="input-group-text" id="addon-wrapping">Menu Description</span>
-                        <input type="text" name="menu_description" id="menu_description" class="form-control"
-                            placeholder="Menu Description" aria-label="Username" aria-describedby="addon-wrapping">
-                    </div>
-                    <input type="hidden" name="menu_image_path" id="menu_image_path">
+
                     <button type="submit" class="btn btn-primary rounded-0 px-3">Update Menu</button>
                 </form>
             </div>
@@ -238,14 +228,18 @@
             fetch(`/get-menu/${id}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
+
                     if (data) {
-                        document.getElementById('menu_id').value = data.id;
-                        document.getElementById('menu_name').value = data.menu_name;
-                        document.getElementById('menu_price').value = data.menu_price;
-                        document.getElementById('menu_description').value = data.menu_description;
-                        document.getElementById('menu_image').src = data.menu_image_path;
-                        document.getElementById('menu_image_path').value = data.menu_image_path;
-                        document.getElementById('menu_category').value = data.category_id;
+                        const menuIdInput = document.getElementById('menu_id');
+                        const menuNameInput = document.getElementById('menu_name');
+                        const menuImagePathInput = document.getElementById('menu_image_path');
+
+                        // Check if elements exist before setting their values
+                        if (menuIdInput) menuIdInput.value = data[0].id;
+                        if (menuNameInput) menuNameInput.value = data[0].menu_name;
+                        if (menuImagePathInput) menuImagePathInput.value = data[0].menu_image_path;
+
                         document.getElementById('updateMenuModal').style.display = 'block';
                     } else {
                         Swal.fire({
@@ -256,12 +250,7 @@
                     }
                 })
                 .catch(error => {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Something went wrong!",
-                        footer: '<a href="#">Why do I have this issue?</a>'
-                    });
+                    console.log(error);
                 });
         }
 
