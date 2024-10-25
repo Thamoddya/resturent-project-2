@@ -72,9 +72,9 @@
                     @if ($orderData->isPaid == 0 || $orderData->isPaid == 2)
                         <div class="col-12 mt-3 mb-3">
                             <h6>Select Payment Method</h6>
-                            <button class="btn btn-primary rounded-0"
+                            {{-- <button class="btn btn-primary rounded-0"
                                 onclick="makePayment('{{ $orderData->order_id }}');">PAY ONLINE
-                            </button>
+                            </button> --}}
                             @if ($orderData->isPaid == 2)
                                 <button disabled class="btn btn-success rounded-0">PAYED TO CATCHER</button>
                             @else
