@@ -147,8 +147,6 @@ class MenuController extends Controller
             $menu->menu_description = $request->menu_description;
         }
 
-        $menu->category_id = $request->category_id;
-
         if ($request->hasFile('menu_image')) {
             $filename = 'menu' . time() . '_' . uniqid() . '.' . $request->file('menu_image')->getClientOriginalExtension();
             $imagePath = $request->file('menu_image')->move(public_path('images/menus'), $filename);
