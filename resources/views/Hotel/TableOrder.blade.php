@@ -335,6 +335,9 @@
                 selectedItems: selectedItems
             };
 
+            console.log(data);
+
+
             $.ajax({
                 url: "/create-order-new",
                 method: 'POST',

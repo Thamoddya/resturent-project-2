@@ -92,9 +92,9 @@
                         <div class="col-6 col-md-3 p-2 border border-1">
                             <div class="row" id="food_{{ $hotelMenu->id }}">
                                 <div class="col-12">
-                                    <img src="{{ asset($hotelMenu->menu_image_path) }}"
+                                    {{-- <img src="{{ asset($hotelMenu->menu_image_path) }}"
                                         class="img-fluid card-img rounded-start" style="width: 100px;height: 100px;"
-                                        alt="...">
+                                        alt="..."> --}}
                                 </div>
                                 <div class="col-12">
                                     <div class="card-body d-flex flex-column ">
@@ -332,6 +332,8 @@
                 'name': $('#name').val(),
                 'selectedItems': selectedItems
             };
+
+            console.log(data);
 
             $.ajax({
                 url: "/process/create-order",

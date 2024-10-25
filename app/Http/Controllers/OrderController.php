@@ -97,6 +97,7 @@ class OrderController extends Controller
             "customer_mobile" => $data['mobile'],
             "customer_email" => $data['email'],
             "employee_id" => $user->id,
+            "total_price" => $data['total'],
         ]);
 
         // Log order creation
@@ -112,6 +113,7 @@ class OrderController extends Controller
                 "hotel_id" => $user->hotel_id,
                 "menu_id" => $data['selectedItems'][$i]['id'],
                 "qty" => $data['selectedItems'][$i]['quantity'],
+                "menu_name" => $data['selectedItems'][$i]['title']
             ]);
         }
         $table = Table::where('id', $data['tableId'])->first();
