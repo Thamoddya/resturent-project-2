@@ -236,9 +236,9 @@
                         const menuImagePathInput = document.getElementById('menu_image_path');
 
                         // Check if elements exist before setting their values
-                        if (menuIdInput) menuIdInput.value = data[0].id;
-                        if (menuNameInput) menuNameInput.value = data[0].menu_name;
-                        if (menuImagePathInput) menuImagePathInput.value = data[0].menu_image_path;
+                        if (menuIdInput) menuIdInput.value = data.id;
+                        if (menuNameInput) menuNameInput.value = data.menu_name;
+                        if (menuImagePathInput) menuImagePathInput.value = data.menu_image_path;
 
                         document.getElementById('updateMenuModal').style.display = 'block';
                     } else {

@@ -14,13 +14,12 @@ class MenuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function getMenu()
+    public function getMenu($id)
     {
-        $user = auth()->user();
-        $hotelID = $user->hotel_id;
+        $menu = Menu::find($id);
 
-        $menus = Menu::where('hotel_id', $hotelID)->get();
-        return response()->json($menus);
+
+        return response()->json($menu);
     }
 
     public function setMenuAvailable($id)
