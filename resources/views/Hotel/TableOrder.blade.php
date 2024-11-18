@@ -4,221 +4,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Ordering System Hotel</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Food Ordering System</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        ::-webkit-scrollbar {
-            display: none;
-        }
-
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
         }
 
-        .buttonDownload {
-            -webkit-text-size-adjust: 100%;
-            -webkit-tap-highlight-color: transparent;
-            list-style: none;
-            border-collapse: collapse;
-            border-spacing: 0;
-            box-sizing: border-box;
-            font: inherit;
-            -webkit-appearance: button;
-            font-family: inherit;
-            vertical-align: middle;
-            background-image: none;
-            display: inline-block;
-            margin-bottom: 0;
-            text-align: center;
-            touch-action: manipulation;
-            cursor: pointer;
-            border: 1px solid transparent;
+        /* Hide Scrollbars but Allow Scrolling */
+        .scrollable-category::-webkit-scrollbar,
+        .scrollable-menus::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbars for WebKit browsers */
+        }
+
+        .scrollable-category,
+        .scrollable-menus {
+            -ms-overflow-style: none;
+            /* Internet Explorer 10+ */
+            scrollbar-width: none;
+            /* Firefox */
+            overflow-y: auto;
+            /* Ensure content is scrollable */
+        }
+
+        /* Smooth Scrolling */
+        .scrollable-category,
+        .scrollable-menus {
+            scroll-behavior: smooth;
+            /* Enables smooth scrolling */
+        }
+
+        /* Other styles remain the same */
+        .category-buttons {
+            overflow-x: auto;
+            display: flex;
+            padding: 10px;
             white-space: nowrap;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .18);
-            font-weight: 600;
-            text-transform: uppercase;
-            outline: 0 !important;
-            transition: box-shadow .28s cubic-bezier(.4, 0, .2, 1);
-            border-radius: 2px;
-            border-width: 0 !important;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .menu-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            background: #fff;
+        }
+
+        .menu-card:hover {
+            transform: scale(1.03);
+        }
+
+        .navbar {
+            background: #ff5722;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            white-space: normal;
+            /* Allow text wrapping */
+            word-wrap: break-word;
+            /* Ensure long words break */
+            overflow-wrap: break-word;
+            /* Modern equivalent for word wrapping */
+        }
+
+        .navbar-brand {
+            padding: 5px 10px;
+            /* Adjust padding for better alignment */
+            line-height: 1.2;
+            /* Adjust line height for readability */
+        }
+
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 14px;
+                /* Reduce font size for smaller screens */
+            }
+        }
+
+        .category-section {
             position: relative;
-            user-select: none;
-            font-size: 11px;
-            padding: 13px 38px;
-            margin-top: 0;
-            margin-left: 0;
-            margin-right: 5px;
-            line-height: 1.44;
-            color: #FFF;
-            background-color: #1BBC9B;
-            border-color: #1BBC9B;
-            text-decoration: none;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
 
-        body {
-            background-image: url("{{ asset('assets/images/bgImage.svg') }}");
-            background-size: cover;
-            background-repeat: repeat;
-            background-attachment: fixed;
-            backface-visibility: initial;
-        }
-
-        .navbar-brand img {
-            width: 50px;
-            height: 50px;
-        }
-
-        .card img {
-            height: 150px;
-            object-fit: cover;
+        .category-dropdown {
+            display: none;
         }
 
         .category-buttons {
             overflow-x: auto;
-            white-space: nowrap;
+            display: flex;
             padding: 10px;
-            background: #333333;
+            white-space: nowrap;
+            background: #f9f9f9;
+            border-radius: 10px;
         }
 
         .category-buttons button {
-            margin-right: 5px;
-            flex: 0 0 auto;
+            flex-shrink: 0;
+            margin-right: 10px;
+            padding: 8px 15px;
+            background: #ff5722;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .category-buttons button:hover {
+            background: #e64a19;
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .menu-card-body {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .menu-card-body h5 {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .menu-card-body p {
+            font-size: 12px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .menu-card-body button {
+            padding: 8px 15px;
+            font-size: 13px;
+            color: #fff;
+            background: #ff5722;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .menu-card-body button:hover {
+            background: #e64a19;
         }
 
         .selected-foods {
-            min-height: 150px;
-            background-color: #e9ecef;
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+            /* Ensure proper layout */
+        }
+
+        .selected-foods .row {
+            max-height: 150px;
+            /* Set a height for the list of items */
+            overflow-y: auto;
+            /* Enable scrolling for overflowing content */
+            margin-bottom: 10px;
+        }
+
+        .selected-foods .row::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbar for modern browsers */
+        }
+
+        .selected-foods .row {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .total-price {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Sticky footer for checkout and total */
+        .selected-foods-footer {
+            position: sticky;
+            bottom: 0;
+            background: #fff;
+            padding-top: 10px;
+            box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            padding-bottom: 10px;
+        }
+
+        .selected-foods h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .btn-checkout {
+            padding: 8px 15px;
+            font-size: 14px;
+            color: #fff;
+            background: #ff5722;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Scrollable categories and menus */
+        .scrollable-category {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .scrollable-menus {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .category-buttons {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .menu-card img {
+                height: 100px;
+            }
         }
     </style>
 </head>
 
-
-<body style="overflow-x: hidden">
-    <nav class="navbar" style="background: #333333">
+<body>
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand text-white" href="#">
-                FOOD ORDERING SYSTEM - {{ $hotel->hotel_name }}
-            </a>
+            <a class="navbar-brand text-wrap" href="#">Food Ordering System - {{ $hotel->hotel_name }}</a>
         </div>
     </nav>
 
-    @if ($table->isReserved == 1)
-        <div class="alert alert-danger m-3" role="alert">
-            This table is already reserved. Please select another table.
-        </div>
-        <script type="text/javascript">
-            setTimeout(function() {
-                window.location.reload();
-            }, 10000);
-        </script>
-        {{ exit() }}
-    @endif
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 mt-3 category-buttons d-flex flex-row">
+    <div class="container mt-4">
+        <!-- Categories -->
+        <div class="category-section">
+            <div class="category-buttons">
                 @foreach ($categories as $category)
-                    <button class="buttonDownload category-btn" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#{{ $category->name }}" aria-expanded="false"
-                        aria-controls="{{ $category->name }}">
+                    <button class="category-btn" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#{{ str_replace(' ', '', $category->name) }}" aria-expanded="false"
+                        aria-controls="{{ str_replace(' ', '', $category->name) }}">
                         {{ $category->name }}
                     </button>
                 @endforeach
             </div>
         </div>
 
-        <div class="row">
-            <div id="categoryCollapseGroup">
+        <!-- Menus -->
+        <div id="categoryCollapseGroup">
+            <div class="scrollable-menus">
                 @foreach ($categories as $category)
-                    <div class="collapse" id="{{ $category->name }}" data-bs-parent="#categoryCollapseGroup"
-                        style="background-color: transparent">
-                        <div class="card card-body" style="background-color: transparent">
-                            <div class="row">
-                                @foreach ($menusByCategory[$category->name] as $food)
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 p-2">
-                                        <div class="card h-100 justify-content-center align-items-center">
-                                            <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
-                                                class="img-fluid card-img-top rounded-start p-2"
-                                                style="height: 150px;width: 250px" alt="...">
-                                            <div class="card-body d-flex flex-column">
-                                                <h5 class="card-title fw-bold flex-grow-1">{{ $food->menu_name }}</h5>
-                                                <p class="card-text flex-grow-1">
-                                                    {{ Str::limit($food->menu_description, 50) }}.
-                                                </p>
-                                                <button class="btn btn-primary rounded-0"
-                                                    onclick="viewMenu('{{ $food->id }}')">VIEW</button>
-                                            </div>
+                    <div class="collapse mt-2" id="{{ str_replace(' ', '', $category->name) }}"
+                        data-bs-parent="#categoryCollapseGroup">
+                        <div class="row g-3">
+                            @foreach ($menusByCategory[$category->name] as $food)
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="menu-card">
+                                        <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
+                                            alt="Menu Image">
+                                        <div class="menu-card-body">
+                                            <h5>{{ $food->menu_name }}</h5>
+                                            <p>{{ Str::limit($food->menu_description, 40) }}</p>
+                                            <button onclick="viewMenu('{{ $food->id }}')">View</button>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 @endforeach
             </div>
         </div>
 
-        <div class="col-12 mt-3">
-            <div class="row">
-                <div class="col-12 bg-secondary">
-                    <h3 class="text-center mt-2">Selected Foods</h3>
-                </div>
-                <div class="col-12 mt-2">
-                    <div class="row selected-foods"></div>
-                </div>
-                <div class="col-12">
-                    <div class="row d-flex">
-                        <div class="col-8 total-price bg-secondary bg-opacity-50"></div>
-                        <button class="col-4 btn btn-success rounded-0 d-flex justify-content-center align-items-center"
-                            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            CheckOut
-                        </button>
+        <!-- Selected Foods -->
+        <div class="selected-foods">
+            <h3>Selected Foods</h3>
+            <div class="row"></div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="selected-foods-footer">
+            <div class="total-price"></div>
+            <button class="btn btn-primary btn-checkout" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop">Checkout</button>
+        </div>
+    </div>
 
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Order Details</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Form fields for user details name,mobile,email -->
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="name" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="mobile" class="form-label">Mobile</label>
-                                            <input type="text" class="form-control" id="mobile" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email" required>
-                                        </div>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary"
-                                            onclick="makeOrder();">Confirm</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Order Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="mobile" class="form-label">Mobile</label>
+                        <input type="text" class="form-control" id="mobile" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="makeOrder()">Confirm</button>
                 </div>
             </div>
         </div>

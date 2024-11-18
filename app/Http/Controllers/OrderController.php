@@ -129,7 +129,7 @@ class OrderController extends Controller
         $data = $request->all();
         $orderID = hexdec(hash('crc32b', Str::uuid()));
 
-        if(empty($data['tableId'])){
+        if (empty($data['tableId'])) {
             return response()->json([
                 "Error" => "Select Table",
                 "request" => $request->selectedItems
