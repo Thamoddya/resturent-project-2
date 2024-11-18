@@ -261,8 +261,10 @@
 
 <body>
     <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand text-wrap" href="#">Food Ordering System - {{ $hotel->hotel_name }}</a>
+        <div class="container-fluid justify-content-center align-items-center">
+            <a class="navbar-brand text-wrap text-white" href="#">Food Ordering System -
+                {{ $hotel->hotel_name }}</a>
+            <img src="{{ asset($hotel->hotel_image_path) }}" alt="Logo" height="50">
         </div>
     </nav>
 
