@@ -27,9 +27,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/HotelDetails/{id}', [AdminRouteController::class, 'AdminHotelDetails'])->name('SuperAdmin.HotelDetails');
         });
     });
-
     Route::group(['middleware' => ['role:Hotel_Admin']], function () {
-
         Route::prefix('hotelAdmin')->group(function () {
 
             Route::get('/Home', [HotelRouteController::class, 'HotelAdminHome'])->name('HotelAdmin.Home');
