@@ -10,7 +10,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+        </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -273,11 +273,14 @@
         <div class="category-section">
             <div class="category-buttons">
                 @foreach ($categories as $category)
-                    <button class="category-btn" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#{{ str_replace(' ', '', $category->name) }}" aria-expanded="false"
-                        aria-controls="{{ str_replace(' ', '', $category->name) }}">
-                        {{ $category->name }}
-                    </button>
+                                <?php 
+                                                                    // Generate a sanitized ID
+                    $sanitizedId = preg_replace('/[^A-Za-z0-9]/', '_', $category->name); 
+                                                                ?>
+                                <button class="category-btn" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#{{ $sanitizedId }}" aria-expanded="false" aria-controls="{{ $sanitizedId }}">
+                                    {{ $category->name }}
+                                </button>
                 @endforeach
             </div>
         </div>
@@ -286,24 +289,27 @@
         <div id="categoryCollapseGroup">
             <div class="scrollable-menus">
                 @foreach ($categories as $category)
-                    <div class="collapse mt-2" id="{{ str_replace(' ', '', $category->name) }}"
-                        data-bs-parent="#categoryCollapseGroup">
-                        <div class="row g-3">
-                            @foreach ($menusByCategory[$category->name] as $food)
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="menu-card">
-                                        <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
-                                            alt="Menu Image">
-                                        <div class="menu-card-body">
-                                            <h5>{{ $food->menu_name }}</h5>
-                                            <p>{{ Str::limit($food->menu_description, 40) }}</p>
-                                            <button onclick="viewMenu('{{ $food->id }}')">View</button>
-                                        </div>
+                                <?php 
+                                                                    // Generate a sanitized ID
+                    $sanitizedId = preg_replace('/[^A-Za-z0-9]/', '_', $category->name); 
+                                                                ?>
+                                <div class="collapse mt-2" id="{{ $sanitizedId }}" data-bs-parent="#categoryCollapseGroup">
+                                    <div class="row g-3">
+                                        @foreach ($menusByCategory[$category->name] as $food)
+                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                                <div class="menu-card">
+                                                    <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
+                                                        alt="Menu Image">
+                                                    <div class="menu-card-body">
+                                                        <h5>{{ $food->menu_name }}</h5>
+                                                        <p>{{ Str::limit($food->menu_description, 40) }}</p>
+                                                        <button onclick="viewMenu('{{ $food->id }}')">View</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
-                    </div>
                 @endforeach
             </div>
         </div>
@@ -314,6 +320,7 @@
             <div class="row"></div>
         </div>
     </div>
+
     <div class="container mt-4">
         <div class="selected-foods-footer">
             <div class="total-price"></div>
@@ -382,7 +389,7 @@
         }
 
 
-        window.removeItem = function(id) {
+        window.removeItem = function (id) {
             const selectedItemIndex = selectedItems.findIndex(item => item.id === id);
             if (selectedItemIndex !== -1) {
                 selectedItems.splice(selectedItemIndex, 1);
@@ -390,7 +397,7 @@
             updateUI();
         };
 
-        window.selectMenuType = function(id, title, typeName, typePrice) {
+        window.selectMenuType = function (id, title, typeName, typePrice) {
             const selectedItemIndex = selectedItems.findIndex(item => item.id === id && item.type === typeName);
 
             if (selectedItemIndex === -1) {
@@ -473,11 +480,11 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
                     window.location.href = '/order/' + response.orderID;
                 },
-                error: function(error) {
+                error: function (error) {
                     console.log(error);
                     swal("Error", "Unable to place the order.", "error");
                 }
@@ -485,8 +492,8 @@
         };
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </body>
 
 </html>

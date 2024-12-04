@@ -13,28 +13,31 @@ class PDFController extends Controller
     public function generateOrderInvoice($id)
     {
         $order = Order::with('orderdMenus')->where('order_id', $id)->first();
-        $hotel  = Hotel::where('id',$order->hotel_id)->first();
+        $hotel = Hotel::where('id', $order->hotel_id)->first();
 
-
-        if($order){
+        if ($order) {
             $data = [
                 'invoiceID' => $order->transaction->invoice_id,
                 'orderID' => $order->order_id,
-                'hotel'=> $hotel,
-                'logo'=>asset($hotel->hotel_image_path),
-                'customer_name'=>$order->customer_name,
-                'customer_mobile'=>$order->customer_mobile,
-                'customer_email'=>$order->customer_email,
-                'order_total'=>$order->getOrderTotal(),
-                'order_items'=>$order->orderdMenus(),
-                'order'=>$order,
+                'hotel' => $hotel,
+                'logo' => asset($hotel->hotel_image_path),
+                'customer_name' => $order->customer_name,
+                'customer_mobile' => $order->customer_mobile,
+                'customer_email' => $order->customer_email,
+                'order_total' => $order->getOrderTotal(),
+                'order_items' => $order->orderdMenus(),
+                'order' => $order,
             ];
-            
-            $pdf = PDF::loadView('pdf.orderInvoice', $data);
+
+            $customPaper = [0, 0, 226.8, 567.0]; // width and height in points (1 inch = 72 points)
+
+            $pdf = PDF::loadView('pdf.orderInvoice', $data)
+                ->setPaper($customPaper, 'portrait');
+
             return $pdf->stream();
-        }
-        else{
+        } else {
             return "Invoice Not Found";
-        };
+        }
     }
+
 }
