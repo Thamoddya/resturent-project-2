@@ -1,508 +1,537 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Food Ordering System</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"
+    />
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Hide Scrollbars but Allow Scrolling */
-        .scrollable-category::-webkit-scrollbar,
-        .scrollable-menus::-webkit-scrollbar {
-            display: none;
-            /* Hide scrollbars for WebKit browsers */
-        }
-
-        .scrollable-category,
-        .scrollable-menus {
-            -ms-overflow-style: none;
-            /* Internet Explorer 10+ */
-            scrollbar-width: none;
-            /* Firefox */
-            overflow-y: auto;
-            /* Ensure content is scrollable */
-        }
-
-        /* Smooth Scrolling */
-        .scrollable-category,
-        .scrollable-menus {
-            scroll-behavior: smooth;
-            /* Enables smooth scrolling */
-        }
-
-        /* Other styles remain the same */
-        .category-buttons {
-            overflow-x: auto;
-            display: flex;
-            padding: 10px;
-            white-space: nowrap;
-            background: #f9f9f9;
-            border-radius: 10px;
-        }
-
-        .menu-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-            background: #fff;
-        }
-
-        .menu-card:hover {
-            transform: scale(1.03);
-        }
-
+        /* Customize the navbar */
         .navbar {
-            background: #ff5722;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: #343a40;
+            padding: 1rem;
         }
 
         .navbar-brand {
-            white-space: normal;
-            /* Allow text wrapping */
-            word-wrap: break-word;
-            /* Ensure long words break */
-            overflow-wrap: break-word;
-            /* Modern equivalent for word wrapping */
+            font-weight: bold;
+            font-size: 1.2rem;
         }
 
-        .navbar-brand {
-            padding: 5px 10px;
-            /* Adjust padding for better alignment */
-            line-height: 1.2;
-            /* Adjust line height for readability */
-        }
-
-        @media (max-width: 768px) {
-            .navbar-brand {
-                font-size: 14px;
-                /* Reduce font size for smaller screens */
-            }
-        }
-
-        .category-section {
-            position: relative;
-            background: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .category-dropdown {
-            display: none;
-        }
-
+        /* Category buttons */
         .category-buttons {
-            overflow-x: auto;
             display: flex;
-            padding: 10px;
-            white-space: nowrap;
-            background: #f9f9f9;
-            border-radius: 10px;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
-        .category-buttons button {
-            flex-shrink: 0;
-            margin-right: 10px;
-            padding: 8px 15px;
-            background: #ff5722;
+        .category-btn {
+            background-color: #0d6efd;
             color: #fff;
             border: none;
-            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
         }
 
-        .category-buttons button:hover {
-            background: #e64a19;
+        .category-btn:hover {
+            background-color: #0b5ed7;
+        }
+
+        /* Menu cards */
+        .menu-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+            text-align: center;
         }
 
         .menu-card img {
             width: 100%;
-            height: 120px;
+            height: 150px;
             object-fit: cover;
         }
 
         .menu-card-body {
-            padding: 10px;
-            text-align: center;
+            padding: 1rem;
         }
 
         .menu-card-body h5 {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
         }
 
         .menu-card-body p {
-            font-size: 12px;
-            margin-bottom: 10px;
+            font-size: 0.9rem;
             color: #666;
+            height: 36px; /* just to limit text a bit */
+            overflow: hidden;
+            margin-bottom: 0.5rem;
         }
 
         .menu-card-body button {
-            padding: 8px 15px;
-            font-size: 13px;
+            background-color: #0d6efd;
             color: #fff;
-            background: #ff5722;
             border: none;
-            border-radius: 5px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 3px;
             cursor: pointer;
         }
 
         .menu-card-body button:hover {
-            background: #e64a19;
+            background-color: #0b5ed7;
         }
 
-        .selected-foods {
-            margin-top: 20px;
-            padding: 15px;
-            background: #fff;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            position: relative;
-            /* Ensure proper layout */
-        }
-
-        .selected-foods .row {
-            max-height: 150px;
-            /* Set a height for the list of items */
+        /* Scrollable menus */
+        .scrollable-menus {
+            max-height: 500px;
             overflow-y: auto;
-            /* Enable scrolling for overflowing content */
-            margin-bottom: 10px;
+            margin-bottom: 2rem;
         }
 
-        .selected-foods .row::-webkit-scrollbar {
-            display: none;
-            /* Hide scrollbar for modern browsers */
-        }
-
-        .selected-foods .row {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .total-price {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        /* Sticky footer for checkout and total */
-        .selected-foods-footer {
-            position: sticky;
-            bottom: 0;
-            background: #fff;
-            padding-top: 10px;
-            box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
-            justify-content: center;
-            display: flex;
-            align-items: center;
-            border-radius: 10px;
-            padding-bottom: 10px;
+        /* Selected Foods */
+        .selected-foods {
+            margin-top: 2rem;
         }
 
         .selected-foods h3 {
-            margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: bold;
+            margin-bottom: 1rem;
         }
 
-        .btn-checkout {
-            padding: 8px 15px;
-            font-size: 14px;
-            color: #fff;
-            background: #ff5722;
-            border: none;
+        .selected-food-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background-color: #f8f9fa;
             border-radius: 5px;
-            cursor: pointer;
         }
 
-        /* Scrollable categories and menus */
-        .scrollable-category {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .scrollable-menus {
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .category-buttons {
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-
-            .menu-card img {
-                height: 100px;
-            }
+        /* Footer area for total & checkout */
+        .selected-foods-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid justify-content-center align-items-center">
-            <a class="navbar-brand text-wrap text-white" href="#">Food Ordering System -
-                {{ $hotel->hotel_name }}</a>
-            <img src="{{ asset($hotel->hotel_image_path) }}" alt="Logo" height="50">
-        </div>
-    </nav>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid justify-content-center align-items-center">
+        <a class="navbar-brand text-wrap text-white" href="#">
+            Food Ordering System - {{ $hotel->hotel_name }}
+        </a>
+        <img src="{{ asset($hotel->hotel_image_path) }}" alt="Logo" height="50"/>
+    </div>
+</nav>
 
-    <div class="container mt-4">
-        <!-- Categories -->
-        <div class="category-section">
-            <div class="category-buttons">
-                @foreach ($categories as $category)
-                                <?php
-                                                                    // Generate a sanitized ID
+<div class="container mt-4">
+    <!-- Categories -->
+    <div class="category-section">
+        <div class="category-buttons">
+            @foreach ($categories as $category)
+                    <?php
+                    // Generate a sanitized ID
                     $sanitizedId = preg_replace('/[^A-Za-z0-9]/', '_', $category->name);
-                                                                ?>
-                                <button class="category-btn" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#{{ $sanitizedId }}" aria-expanded="false" aria-controls="{{ $sanitizedId }}">
-                                    {{ $category->name }}
-                                </button>
-                @endforeach
-            </div>
+                    ?>
+                <button
+                    class="category-btn"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#{{ $sanitizedId }}"
+                    aria-expanded="false"
+                    aria-controls="{{ $sanitizedId }}"
+                >
+                    {{ $category->name }}
+                </button>
+            @endforeach
         </div>
+    </div>
 
-        <!-- Menus -->
-        <div id="categoryCollapseGroup">
-            <div class="scrollable-menus">
-                @foreach ($categories as $category)
-                                <?php
-                                                                    // Generate a sanitized ID
+    <!-- Menus by Category -->
+    <div id="categoryCollapseGroup">
+        <div class="scrollable-menus">
+            @foreach ($categories as $category)
+                    <?php
+                    // Generate a sanitized ID
                     $sanitizedId = preg_replace('/[^A-Za-z0-9]/', '_', $category->name);
-                                                                ?>
-                                <div class="collapse mt-2" id="{{ $sanitizedId }}" data-bs-parent="#categoryCollapseGroup">
-                                    <div class="row g-3">
-                                        @foreach ($menusByCategory[$category->name] as $food)
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                                <div class="menu-card">
-                                                    <img src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
-                                                        alt="Menu Image">
-                                                    <div class="menu-card-body">
-                                                        <h5>{{ $food->menu_name }}</h5>
-                                                        <p>{{ Str::limit($food->menu_description, 40) }}</p>
-                                                        <button onclick="viewMenu('{{ $food->id }}')">View</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
+                    ?>
+                <div
+                    class="collapse mt-2"
+                    id="{{ $sanitizedId }}"
+                    data-bs-parent="#categoryCollapseGroup"
+                >
+                    <div class="row g-3">
+                        @foreach ($menusByCategory[$category->name] as $food)
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <div class="menu-card">
+                                    <img
+                                        src="{{ $food->menu_image_path ?? asset('assets/images/section/menu-slider-1.jpg') }}"
+                                        alt="Menu Image"
+                                    />
+                                    <div class="menu-card-body">
+                                        <h5>{{ $food->menu_name }}</h5>
+                                        <p>{{ Str::limit($food->menu_description, 40) }}</p>
+                                        <button onclick="viewMenu('{{ $food->id }}','{{ $food->menu_name }}')">
+                                            View
+                                        </button>
                                     </div>
                                 </div>
-                @endforeach
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <!-- Selected Foods -->
+    <div class="selected-foods">
+        <h3>Selected Foods</h3>
+        <div class="row" id="selectedFoodsContainer">
+            <!-- Dynamically added items go here -->
+        </div>
+    </div>
+</div>
+
+<!-- Footer with total and checkout button -->
+<div class="container mt-4">
+    <div class="selected-foods-footer">
+        <div class="total-price" id="totalPriceDisplay">Total: Rs 0.00</div>
+        <button
+            class="btn btn-primary btn-checkout"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+        >
+            Checkout
+        </button>
+    </div>
+</div>
+
+<!-- Modal for user details -->
+<div
+    class="modal fade"
+    id="staticBackdrop"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Order Details</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        required
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="mobile" class="form-label">Mobile</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="mobile"
+                        required
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        required
+                    />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="makeOrder()"
+                >
+                    Confirm
+                </button>
             </div>
         </div>
-
-        <!-- Selected Foods -->
-        <div class="selected-foods">
-            <h3>Selected Foods</h3>
-            <div class="row"></div>
-        </div>
     </div>
+</div>
 
-    <div class="container mt-4">
-        <div class="selected-foods-footer">
-            <div class="total-price"></div>
-            <button class="btn btn-primary btn-checkout" data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop">Checkout</button>
-        </div>
-    </div>
+<!-- SweetAlert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Order Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="mobile" class="form-label">Mobile</label>
-                        <input type="text" class="form-control" id="mobile" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="makeOrder()">Confirm</button>
-                </div>
+<!-- jQuery (for Ajax) -->
+<script
+    src="https://code.jquery.com/jquery-3.7.1.js"
+    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"
+></script>
+
+<!-- Bootstrap Bundle JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+></script>
+
+<script>
+    let selectedItems = [];
+    let total = 0;
+
+    // Utility: Re-calculate the total price
+    function calculateTotal() {
+        total = selectedItems.reduce((acc, item) => {
+            return acc + (item.price * item.quantity);
+        }, 0);
+    }
+
+    // Update the UI for the selected items (cart)
+    function updateUI() {
+        const container = document.getElementById("selectedFoodsContainer");
+        container.innerHTML = "";
+
+        selectedItems.forEach((item, index) => {
+            const itemElement = document.createElement("div");
+            itemElement.classList = "col-12 selected-food-item";
+            itemElement.innerHTML = `
+          <div class="row">
+            <div class="col-md-4 col-sm-6 mb-2">
+              <strong>${item.title}</strong>
+              <br/>
+              Type: ${item.typeName}
+              <br/>
+              Price (each): Rs ${item.price.toFixed(2)}
             </div>
-        </div>
-    </div>
+            <div class="col-md-4 col-sm-6 mb-2 d-flex align-items-center">
+              <button
+                class="btn btn-secondary btn-sm me-2"
+                onclick="changeQuantity(${index}, 'decrement')"
+              >-</button>
+              <span class="mx-2">${item.quantity}</span>
+              <button
+                class="btn btn-secondary btn-sm ms-2"
+                onclick="changeQuantity(${index}, 'increment')"
+              >+</button>
+            </div>
+            <div class="col-md-4 col-sm-12 d-flex align-items-center justify-content-end">
+              <div class="me-3">
+                <strong>Subtotal:</strong>
+                Rs ${(item.price * item.quantity).toFixed(2)}
+              </div>
+              <button
+                class="btn btn-danger btn-sm"
+                onclick="removeItem(${index})"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        `;
+            container.appendChild(itemElement);
+        });
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-        let selectedItems = [];
-        let total;
+        calculateTotal();
+        document.getElementById("totalPriceDisplay").innerHTML = `Total: Rs ${total.toFixed(2)}`;
+    }
 
-        function updateUI() {
-            const selectedFoodsElement = document.querySelector('.selected-foods');
-            selectedFoodsElement.innerHTML = '';
-
-            selectedItems.forEach((item) => {
-                total = selectedItems.reduce((acc, item) => acc + (item.type * item.quantity), 0);
-                const itemElement = document.createElement('div');
-                itemElement.classList = "col-12 p-2 mb-2 rounded rounded-2 bg-opacity-25 bg-secondary";
-                itemElement.innerHTML =
-                    `<div class="row">
-                        <div class="col-12 d-flex align-items-center justify-content-center">
-                            <h6 class="m-3">${item.title} (${item.type}) - Rs ${item.type * item.quantity} | Quantity: ${item.quantity}</h6>
-                            <button class="btn btn-danger btn-sm m-3" onclick="removeItem(${item.id})">Remove</button>
-                        </div>
-                    </div>`;
-                selectedFoodsElement.appendChild(itemElement);
-            });
-
-            console.log(`Total price calculated: Rs ${total}`);
-
-            const totalElement = document.querySelector('.total-price');
-            totalElement.innerHTML = `<h6 class="text-start m-3">Total: <span class="fw-bold">Rs ${total}.00</span></h6>`;
-        }
-
-
-        window.removeItem = function (id) {
-            const selectedItemIndex = selectedItems.findIndex(item => item.id === id);
-            if (selectedItemIndex !== -1) {
-                selectedItems.splice(selectedItemIndex, 1);
+    // Increase or decrease quantity
+    function changeQuantity(index, action) {
+        if (action === "increment") {
+            selectedItems[index].quantity++;
+        } else if (action === "decrement") {
+            if (selectedItems[index].quantity > 1) {
+                selectedItems[index].quantity--;
             }
-            updateUI();
-        };
-
-        window.selectMenuType = function (id, title, typeName, typePrice) {
-            const selectedItemIndex = selectedItems.findIndex(item => item.id === id && item.type === typeName);
-
-            if (selectedItemIndex === -1) {
-                selectedItems.push({
-                    id: id,
-                    title: title,
-                    type: typeName,
-                    price: parseFloat(typePrice), // Use typePrice as the price
-                    quantity: 1
-                });
-            } else {
-                selectedItems[selectedItemIndex].quantity++;
-            }
-
-            updateUI();
-
-            swal({
-                title: "Item Added",
-                text: `Added ${title} (${typeName}) to the cart`,
-                icon: "success",
-                button: "OK"
-            });
-        };
-
-        function viewMenu(id) {
-            fetch(`/get-menu-types/${id}`)
-                .then(response => response.json())
-                .then(menuTypes => {
-                    console.log(menuTypes);
-                    if (menuTypes.length === 0) {
-                        swal("No Menu Types Available", "This menu item has no specific types.", "info");
-                        return;
-                    }
-
-                    let typeOptions = '';
-                    menuTypes.forEach(type => {
-                        typeOptions +=
-                            `<button class="btn btn-primary mt-2" onclick="selectMenuType(${id}, '${type.type_name}', ${type.type_price})">${type.type_name} - Rs ${type.type_price}.00</button><br>`;
-                    });
-
-                    swal({
-                        title: 'Select a Menu Type',
-                        content: {
-                            element: 'div',
-                            attributes: {
-                                innerHTML: typeOptions
-                            }
-                        },
-                        button: {
-                            text: "Close",
-                            visible: true,
-                            closeModal: true
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error("Error loading menu types:", error);
-                    swal("Error", "Unable to load menu types.", "error");
-                });
         }
+        updateUI();
+    }
 
-        const makeOrder = () => {
-            var audio = new Audio("{{ asset('/assets/sounds/beep.mp3') }}");
+    // Remove an item from the cart
+    function removeItem(index) {
+        selectedItems.splice(index, 1);
+        updateUI();
+    }
 
-            let data = {
-                total: total,
-                hotelId: '{{ $hotel->id }}',
-                mobile: $('#mobile').val(),
-                tableId: '{{ $table->table_id }}',
-                email: $('#email').val(),
-                name: $('#name').val(),
-                selectedItems: selectedItems
-            };
+    // Fetch the menu types and show a dialog for selecting type & quantity
+    async function viewMenu(menuId, menuName) {
+        try {
+            const response = await fetch(`/get-menu-types/${menuId}`);
+            const menuTypes = await response.json();
 
-            // validate the data
-            if (!data.name || !data.mobile || !data.email) {
-                swal("Error", "Please fill all the fields.", "error");
+            if (!menuTypes || menuTypes.length === 0) {
+                swal("No Menu Types Available", "This menu item has no specific types.", "info");
                 return;
             }
 
-            console.log(data);
+            // Build custom HTML content for SweetAlert
+            let contentDiv = document.createElement("div");
 
+            // A select (or radio) for types
+            let selectEl = document.createElement("select");
+            selectEl.classList = "form-select mb-3";
+            selectEl.id = "typeSelect";
 
-            $.ajax({
-                url: "/create-order-new",
-                method: 'POST',
-                data: data,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    console.log(response);
-                    audio.play();
-                    window.location.href = '/order/' + response.orderID;
-                },
-                error: function (error) {
-                    console.log(error);
-                    swal("Error", "Unable to place the order.", "error");
-                }
+            menuTypes.forEach((type, idx) => {
+                let option = document.createElement("option");
+                option.value = JSON.stringify({
+                    typeName: type.type_name,
+                    price: type.type_price,
+                });
+                option.innerText = `${type.type_name} - Rs ${type.type_price}`;
+                selectEl.appendChild(option);
             });
+
+            // An input for quantity
+            let quantityInput = document.createElement("input");
+            quantityInput.type = "number";
+            quantityInput.min = "1";
+            quantityInput.value = "1";
+            quantityInput.classList = "form-control";
+            quantityInput.id = "quantityInput";
+
+            // Append elements to contentDiv
+            contentDiv.appendChild(selectEl);
+            contentDiv.appendChild(quantityInput);
+
+            swal({
+                title: `Select Type for "${menuName}"`,
+                content: contentDiv,
+                buttons: {
+                    cancel: true,
+                    confirm: {
+                        text: "Add to Cart",
+                        closeModal: false,
+                    },
+                },
+            }).then((value) => {
+                if (!value) {
+                    // user clicked cancel
+                    return;
+                }
+                let selectedOption = JSON.parse(selectEl.value);
+                let quantityValue = parseInt(quantityInput.value);
+
+                // Validate quantity
+                if (quantityValue < 1) {
+                    swal("Invalid Quantity", "Please enter a valid quantity (>= 1).", "error");
+                    return;
+                }
+
+                // Check if already in cart (same menuId + same typeName)
+                let existingIndex = selectedItems.findIndex(
+                    (i) => i.id == menuId && i.typeName == selectedOption.typeName
+                );
+                if (existingIndex > -1) {
+                    // Already in cart, just update quantity
+                    selectedItems[existingIndex].quantity += quantityValue;
+                } else {
+                    // Add new item
+                    selectedItems.push({
+                        id: menuId,
+                        title: menuName,
+                        typeName: selectedOption.typeName,
+                        price: parseFloat(selectedOption.price),
+                        quantity: quantityValue,
+                    });
+                }
+
+                updateUI();
+                swal.close(); // close the dialog
+                // Show a success alert that item was added
+                swal("Added!", `${menuName} (${selectedOption.typeName}) added to cart!`, "success");
+            });
+        } catch (error) {
+            console.error("Error loading menu types:", error);
+            swal("Error", "Unable to load menu types.", "error");
+        }
+    }
+
+    // Final order function
+    function makeOrder() {
+        // If you have a beep sound:
+        var audio = new Audio("{{ asset('/assets/sounds/beep.mp3') }}");
+
+        let name = $("#name").val().trim();
+        let mobile = $("#mobile").val().trim();
+        let email = $("#email").val().trim();
+
+        if (!name || !mobile || !email) {
+            swal("Error", "Please fill all the fields.", "error");
+            return;
+        }
+
+        // If cart is empty, disallow
+        if (selectedItems.length === 0) {
+            swal("Empty Cart", "Please select at least one item before ordering.", "info");
+            return;
+        }
+
+        let data = {
+            total: total,
+            hotelId: '{{ $hotel->id }}',
+            mobile: mobile,
+            tableId: '{{ $table->table_id }}', // ensure `$table` is defined in your controller
+            email: email,
+            name: name,
+            selectedItems: selectedItems,
         };
-    </script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        $.ajax({
+            url: "/create-order-new",
+            method: "POST",
+            data: data,
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            success: function (response) {
+                // If you want a beep sound upon success:
+                audio.play();
+                // redirect to order detail page
+                window.location.href = "/order/" + response.orderID;
+            },
+            error: function (error) {
+                console.log(error);
+                swal("Error", "Unable to place the order.", "error");
+            },
+        });
+    }
+</script>
 </body>
-
 </html>
