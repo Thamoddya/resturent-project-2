@@ -273,9 +273,9 @@
         <div class="category-section">
             <div class="category-buttons">
                 @foreach ($categories as $category)
-                                <?php 
+                                <?php
                                                                     // Generate a sanitized ID
-                    $sanitizedId = preg_replace('/[^A-Za-z0-9]/', '_', $category->name); 
+                    $sanitizedId = preg_replace('/[^A-Za-z0-9]/', '_', $category->name);
                                                                 ?>
                                 <button class="category-btn" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#{{ $sanitizedId }}" aria-expanded="false" aria-controls="{{ $sanitizedId }}">
@@ -289,9 +289,9 @@
         <div id="categoryCollapseGroup">
             <div class="scrollable-menus">
                 @foreach ($categories as $category)
-                                <?php 
+                                <?php
                                                                     // Generate a sanitized ID
-                    $sanitizedId = preg_replace('/[^A-Za-z0-9]/', '_', $category->name); 
+                    $sanitizedId = preg_replace('/[^A-Za-z0-9]/', '_', $category->name);
                                                                 ?>
                                 <div class="collapse mt-2" id="{{ $sanitizedId }}" data-bs-parent="#categoryCollapseGroup">
                                     <div class="row g-3">
@@ -460,6 +460,8 @@
         }
 
         const makeOrder = () => {
+            var audio = new Audio("{{ asset('/assets/sounds/beep.mp3') }}");
+
             let data = {
                 total: total,
                 hotelId: '{{ $hotel->id }}',
@@ -469,6 +471,12 @@
                 name: $('#name').val(),
                 selectedItems: selectedItems
             };
+
+            // validate the data
+            if (!data.name || !data.mobile || !data.email) {
+                swal("Error", "Please fill all the fields.", "error");
+                return;
+            }
 
             console.log(data);
 
@@ -482,6 +490,7 @@
                 },
                 success: function (response) {
                     console.log(response);
+                    audio.play();
                     window.location.href = '/order/' + response.orderID;
                 },
                 error: function (error) {
